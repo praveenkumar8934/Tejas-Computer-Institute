@@ -231,6 +231,15 @@
             }
         }
 
+        function getUserAuthHeaders(extraHeaders = {}) {
+            const token = String(localStorage.getItem('userToken') || '').trim();
+            if (!token) return { ...extraHeaders };
+            return {
+                ...extraHeaders,
+                Authorization: `Bearer ${token}`
+            };
+        }
+
         function updateSummary(course) {
             if (!course) return;
             document.getElementById('summaryCourseTitle').textContent = course.title || '-';
@@ -330,7 +339,7 @@
             try {
                 const response = await fetch('/api/users/enroll', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: getUserAuthHeaders({ 'Content-Type': 'application/json' }),
                     body: JSON.stringify({
                         email: user.email,
                         courseIdentifier: course.slug || String(course.id),

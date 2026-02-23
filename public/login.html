@@ -516,6 +516,9 @@
 
                 if (data.success) {
                     localStorage.setItem('user', JSON.stringify(data.user));
+                    if (data.token) {
+                        localStorage.setItem('userToken', data.token);
+                    }
                     successMsg.textContent = 'Google login successful! Redirecting...';
                     successMsg.style.display = 'block';
                     errorMsg.style.display = 'none';
@@ -578,6 +581,9 @@
                 if (data.success) {
                     // Store user info in localStorage
                     localStorage.setItem('user', JSON.stringify(data.user));
+                    if (data.token) {
+                        localStorage.setItem('userToken', data.token);
+                    }
                     
                     successMsg.textContent = 'Login successful! Redirecting...';
                     successMsg.style.display = 'block';

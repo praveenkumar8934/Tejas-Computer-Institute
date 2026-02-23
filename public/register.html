@@ -572,6 +572,9 @@
 
                 if (data.success) {
                     localStorage.setItem('user', JSON.stringify(data.user));
+                    if (data.token) {
+                        localStorage.setItem('userToken', data.token);
+                    }
                     successMsg.textContent = 'Google signup successful! Redirecting...';
                     successMsg.style.display = 'block';
                     errorMsg.style.display = 'none';

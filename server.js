@@ -129,12 +129,13 @@ function normalizeCoursePricing(raw = {}) {
 let coursePricingOverrides = normalizeCoursePricing(loadData(coursePricingFile, {}));
 saveData(coursePricingFile, coursePricingOverrides);
 const adminSessions = new Map();
+const userSessions = new Map();
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '';
-const GEMINI_MODEL = process.env.GEMINI_MODEL || process.env.GOOGLE_GEMINI_MODEL || 'gemini-1.5-flash';
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GIMINI_API_KEY || process.env.GOOGLE_API_KEY || '';
+const GEMINI_MODEL = process.env.GEMINI_MODEL || process.env.GIMINI_MODEL || process.env.GOOGLE_GEMINI_MODEL || 'gemini-1.5-flash';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY || '';
 const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-4.1-mini';
 const GEMINI_FALLBACK_MODELS = [
@@ -199,6 +200,30 @@ function getBearerToken(req) {
     const authHeader = req.headers.authorization || '';
     if (!authHeader.startsWith('Bearer ')) return null;
     return authHeader.slice('Bearer '.length).trim();
+}
+
+function createUserSession(user = {}) {
+    const email = String(user.email || '').trim().toLowerCase();
+    if (!email) return '';
+    const token = crypto.randomBytes(32).toString('hex');
+    userSessions.set(token, {
+        email,
+        createdAt: new Date().toISOString()
+    });
+    return token;
+}
+
+function requireUserAuth(req, res, next) {
+    const token = getBearerToken(req);
+    const session = token ? userSessions.get(token) : null;
+    if (!session || !session.email) {
+        return res.status(401).json({
+            success: false,
+            message: 'Unauthorized. Please login again.'
+        });
+    }
+    req.authUserEmail = String(session.email).trim().toLowerCase();
+    next();
 }
 
 function requireAdminAuth(req, res, next) {
@@ -3000,6 +3025,8 @@ app.get('/api/config', (req, res) => {
 // Client-side session guard for logged-in users
 app.post('/api/user/session-status', (req, res) => {
     const email = String(req.body?.email || '').trim().toLowerCase();
+    const token = getBearerToken(req);
+    const session = token ? userSessions.get(token) : null;
     if (!email) {
         return res.status(400).json({
             success: false,
@@ -3008,8 +3035,17 @@ app.post('/api/user/session-status', (req, res) => {
         });
     }
 
+    if (!session || !session.email || String(session.email).trim().toLowerCase() !== email) {
+        return res.json({
+            success: true,
+            valid: false,
+            reason: 'expired'
+        });
+    }
+
     const user = users.find(u => String(u.email || '').trim().toLowerCase() === email);
     if (!user) {
+        userSessions.delete(token);
         return res.json({
             success: true,
             valid: false,
@@ -3231,10 +3267,12 @@ app.post('/api/login', (req, res) => {
     
     console.log('User Logged In:', userWithoutPassword);
     
+    const token = createUserSession(user);
     res.json({ 
         success: true, 
         message: 'Login successful!',
-        user: userWithoutPassword
+        user: userWithoutPassword,
+        token
     });
 });
 
@@ -3318,10 +3356,12 @@ app.post('/api/auth/google', async (req, res) => {
         applyBadges(user);
         saveData(usersFile, users);
         const userWithoutPassword = toClientUser(user);
+        const token = createUserSession(user);
         return res.json({
             success: true,
             message: 'Google login successful!',
-            user: userWithoutPassword
+            user: userWithoutPassword,
+            token
         });
     } catch (error) {
         console.error('Google login error:', error);
@@ -3332,7 +3372,7 @@ app.post('/api/auth/google', async (req, res) => {
     }
 });
 
-app.post('/api/users/enroll', (req, res) => {
+app.post('/api/users/enroll', requireUserAuth, (req, res) => {
     const { email, courseIdentifier, courseTitle } = req.body;
     const normalizedEmail = String(email || '').trim().toLowerCase();
 
@@ -3340,6 +3380,12 @@ app.post('/api/users/enroll', (req, res) => {
         return res.status(400).json({
             success: false,
             message: 'Email is required'
+        });
+    }
+    if (normalizedEmail !== req.authUserEmail) {
+        return res.status(403).json({
+            success: false,
+            message: 'Email does not match logged-in user'
         });
     }
 
@@ -3386,7 +3432,7 @@ app.post('/api/users/enroll', (req, res) => {
     });
 });
 
-app.post('/api/users/progress', (req, res) => {
+app.post('/api/users/progress', requireUserAuth, (req, res) => {
     const {
         email,
         courseSlug,
@@ -3404,6 +3450,13 @@ app.post('/api/users/progress', (req, res) => {
         return res.status(400).json({
             success: false,
             message: 'Email and courseSlug are required'
+        });
+    }
+
+    if (normalizedEmail !== req.authUserEmail) {
+        return res.status(403).json({
+            success: false,
+            message: 'Email does not match logged-in user'
         });
     }
 
@@ -4169,7 +4222,22 @@ function getCoursesCatalog() {
 
 // Get all courses
 app.get('/api/courses', (req, res) => {
-    res.json(getCoursesCatalog());
+    const catalog = getCoursesCatalog();
+    const normalizedEmail = String(req.query?.email || '').trim().toLowerCase();
+    let enrolledSlugs = new Set();
+
+    if (normalizedEmail) {
+        const user = users.find(u => String(u.email || '').trim().toLowerCase() === normalizedEmail);
+        if (user) {
+            const normalizedUser = normalizeUserEnrollment(user);
+            enrolledSlugs = new Set((normalizedUser.enrolledCourses || []).map(item => item.slug));
+        }
+    }
+
+    return res.json(catalog.map(course => ({
+        ...course,
+        enrolled: enrolledSlugs.has(course.slug)
+    })));
 });
 
 app.get('/api/practice/challenges', (req, res) => {

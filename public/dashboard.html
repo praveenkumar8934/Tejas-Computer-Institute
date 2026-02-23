@@ -713,12 +713,21 @@
             return progress;
         }
 
+        function getUserAuthHeaders(extraHeaders = {}) {
+            const token = String(localStorage.getItem('userToken') || '').trim();
+            if (!token) return { ...extraHeaders };
+            return {
+                ...extraHeaders,
+                Authorization: `Bearer ${token}`
+            };
+        }
+
         async function syncStoredProgressToServer(user, progressList) {
             if (!user || !user.email || !Array.isArray(progressList) || !progressList.length) return;
             try {
                 await Promise.allSettled(progressList.map(item => fetch('/api/users/progress', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: getUserAuthHeaders({ 'Content-Type': 'application/json' }),
                     body: JSON.stringify({
                         email: user.email,
                         courseSlug: item.courseSlug,
@@ -1297,6 +1306,7 @@
         
         function logout() {
             localStorage.removeItem('user');
+            localStorage.removeItem('userToken');
             window.location.href = 'login.html';
         }
     </script>

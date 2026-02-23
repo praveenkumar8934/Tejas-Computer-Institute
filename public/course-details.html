@@ -382,6 +382,15 @@
             return `courseProgress::${getProgressOwnerKey()}::${slug}`;
         }
 
+        function getUserAuthHeaders(extraHeaders = {}) {
+            const token = String(localStorage.getItem('userToken') || '').trim();
+            if (!token) return { ...extraHeaders };
+            return {
+                ...extraHeaders,
+                Authorization: `Bearer ${token}`
+            };
+        }
+
         function isCourseEnrolled(course) {
             const userRaw = localStorage.getItem('user');
             if (!userRaw) return false;
@@ -455,7 +464,7 @@
 
                 const response = await fetch('/api/users/progress', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: getUserAuthHeaders({ 'Content-Type': 'application/json' }),
                     body: JSON.stringify({
                         email: user.email,
                         courseSlug: course.slug,

@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 const THEME_STORAGE_KEY = 'tci-theme';
+const USER_TOKEN_STORAGE_KEY = 'userToken';
 const THEME_CATALOG = [
     { id: 'light', label: 'Light Classic', icon: 'fa-sun' },
     { id: 'dark', label: 'Dark Mode', icon: 'fa-moon' },
@@ -133,9 +134,24 @@ function initThemeSystem() {
     renderFloatingThemeSwitcher();
 }
 
+function getStoredUserToken() {
+    return String(localStorage.getItem(USER_TOKEN_STORAGE_KEY) || '').trim();
+}
+
+function getUserAuthHeaders(extraHeaders = {}) {
+    const token = getStoredUserToken();
+    if (!token) return { ...extraHeaders };
+    return {
+        ...extraHeaders,
+        Authorization: `Bearer ${token}`
+    };
+}
+
 window.getThemeCatalog = getThemeCatalog;
 window.getCurrentTheme = getCurrentTheme;
 window.applySiteTheme = applySiteTheme;
+window.getStoredUserToken = getStoredUserToken;
+window.getUserAuthHeaders = getUserAuthHeaders;
 
 /**
  * Site-wide announcement bar controlled by admin panel
@@ -203,6 +219,7 @@ function initUserSessionUI() {
         user = JSON.parse(userRaw);
     } catch (error) {
         localStorage.removeItem('user');
+        localStorage.removeItem(USER_TOKEN_STORAGE_KEY);
         return;
     }
 
@@ -226,6 +243,7 @@ function initUserSessionUI() {
         registerBtn.addEventListener('click', function(e) {
             e.preventDefault();
             localStorage.removeItem('user');
+            localStorage.removeItem(USER_TOKEN_STORAGE_KEY);
             window.location.href = 'index.html';
         });
     }
@@ -233,6 +251,7 @@ function initUserSessionUI() {
 
 function forceUserLogout(message) {
     localStorage.removeItem('user');
+    localStorage.removeItem(USER_TOKEN_STORAGE_KEY);
     if (message) {
         alert(message);
     }
@@ -251,6 +270,7 @@ function initUserSessionGuard() {
         user = JSON.parse(userRaw);
     } catch (error) {
         localStorage.removeItem('user');
+        localStorage.removeItem(USER_TOKEN_STORAGE_KEY);
         return;
     }
 
@@ -263,7 +283,7 @@ function initUserSessionGuard() {
         try {
             const response = await fetch('/api/user/session-status', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getUserAuthHeaders({ 'Content-Type': 'application/json' }),
                 body: JSON.stringify({ email: user.email })
             });
 
@@ -276,7 +296,9 @@ function initUserSessionGuard() {
             if (!data.valid) {
                 const reason = data.reason === 'blocked'
                     ? 'Your account has been blocked by admin.'
-                    : 'Your account was removed by admin.';
+                    : (data.reason === 'expired'
+                        ? 'Your session expired. Please login again.'
+                        : 'Your account was removed by admin.');
                 forceUserLogout(reason);
                 return;
             }
