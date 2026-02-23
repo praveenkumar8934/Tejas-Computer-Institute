@@ -1,0 +1,16 @@
+{
+  "xpPerLevel": 250,
+  "rewards": {
+    "enrollXp": 120,
+    "topicXp": 8,
+    "completionXp": 80,
+    "dailyBaseXp": 10,
+    "dailyStreakFactor": 2,
+    "dailyStreakCap": 20
+  },
+  "weeklyChallenge": {
+    "targetTopics": 10,
+    "rewardXp": 120,
+    "label": "Weekly Sprint"
+  }
+}

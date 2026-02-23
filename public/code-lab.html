@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Lab | Tejas Computer Institute</title>
+    <meta name="description" content="Run code virtually inside Tejas Code Lab.">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .lab-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+
+        .lab-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 20px;
+        }
+
+        .lab-card {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .lab-card-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lab-card-header h3 {
+            color: var(--white);
+            margin: 0;
+            font-size: 1.08rem;
+        }
+
+        .lab-card-body {
+            padding: 18px 20px;
+        }
+
+        .lab-editor {
+            width: 100%;
+            min-height: 430px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.95rem;
+            resize: vertical;
+            background: #0e1525;
+            color: #e8edf7;
+        }
+
+        .lab-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .lab-subsection {
+            margin-top: 12px;
+        }
+
+        .lab-subsection label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--gray-text);
+            margin-bottom: 6px;
+        }
+
+        .lab-stdin {
+            width: 100%;
+            min-height: 90px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.86rem;
+            background: #fafcff;
+        }
+
+        .snippet-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .snippet-row input,
+        .snippet-row select {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 9px 10px;
+            font-family: inherit;
+        }
+
+        .snippet-row input {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .lab-controls select {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-family: inherit;
+        }
+
+        .lab-meta {
+            font-size: 0.85rem;
+            color: var(--gray-text);
+        }
+
+        .lab-output {
+            min-height: 370px;
+            border-radius: 10px;
+            background: #10161f;
+            color: #d2deee;
+            padding: 12px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9rem;
+            border: 1px solid #1a2536;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .lab-output.error {
+            color: #ffd1d6;
+            border-color: #6b2730;
+            background: #231417;
+        }
+
+        .lab-output.success {
+            color: #d8ffe3;
+            border-color: #1f5f39;
+            background: #122017;
+        }
+
+        .plot-output {
+            margin-top: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px;
+            background: #fafcff;
+        }
+
+        .plot-title {
+            margin: 0 0 8px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: var(--gray-text);
+        }
+
+        .plot-output img {
+            width: 100%;
+            max-height: 420px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #fff;
+        }
+
+        @media (max-width: 960px) {
+            .lab-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lab-editor {
+                min-height: 320px;
+            }
+
+            .lab-output {
+                min-height: 260px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">TC</div>
+                    <div class="logo-text">Tejas <span>Computer</span></div>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="courses.html" class="nav-link">Courses</a></li>
+                    <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                    <li><a href="code-lab.html" class="nav-link active">Code Lab</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="lab-container">
+        <div class="section-title" style="text-align:left; margin-bottom: 22px;">
+            <h2>Virtual Code Lab</h2>
+            <p>Write and run JavaScript, Python, C, C++, Java, Go, Ruby, PHP, C#, and SQL instantly. You must be logged in to execute code.</p>
+        </div>
+
+        <div class="lab-grid">
+            <section class="lab-card">
+                <div class="lab-card-header">
+                    <h3><i class="fas fa-code"></i> Editor</h3>
+                    <span class="lab-meta" id="labUserInfo">Checking login...</span>
+                </div>
+                <div class="lab-card-body">
+                    <textarea id="codeEditor" class="lab-editor" spellcheck="false">const name = "Tejas";
+console.log("Hello " + name + "!");
+const numbers = [1, 2, 3, 4];
+const sum = numbers.reduce((a, b) => a + b, 0);
+console.log("Sum:", sum);
+sum;</textarea>
+                    <div class="lab-controls">
+                        <select id="languageSelect">
+                            <option value="javascript">JavaScript (Sandbox)</option>
+                            <option value="python">Python (Restricted)</option>
+                            <option value="c">C (Compile & Run)</option>
+                            <option value="cpp">C++ (Compile & Run)</option>
+                            <option value="java">Java (Compile & Run)</option>
+                            <option value="go">Go (Run)</option>
+                            <option value="ruby">Ruby (Run)</option>
+                            <option value="php">PHP (Run)</option>
+                            <option value="csharp">C# (Compile & Run)</option>
+                            <option value="sql">SQL (SQLite In-Memory)</option>
+                        </select>
+                        <button id="runCodeBtn" class="btn btn-primary"><i class="fas fa-play"></i> Run Code</button>
+                        <button id="clearCodeBtn" class="btn btn-secondary"><i class="fas fa-eraser"></i> Clear</button>
+                    </div>
+                    <div class="lab-subsection">
+                        <label for="stdinInput">Input (stdin, optional; one value per line)</label>
+                        <textarea id="stdinInput" class="lab-stdin" spellcheck="false" placeholder="Example:
+5
+10"></textarea>
+                    </div>
+                    <div class="lab-subsection">
+                        <label>Saved Snippets</label>
+                        <div class="snippet-row">
+                            <input id="snippetNameInput" placeholder="Snippet name">
+                            <button id="saveSnippetBtn" class="btn btn-secondary"><i class="fas fa-save"></i> Save</button>
+                        </div>
+                        <div class="snippet-row">
+                            <select id="snippetSelect">
+                                <option value="">Select snippet</option>
+                            </select>
+                            <button id="loadSnippetBtn" class="btn btn-secondary"><i class="fas fa-folder-open"></i> Load</button>
+                            <button id="deleteSnippetBtn" class="btn btn-secondary"><i class="fas fa-trash"></i> Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lab-card">
+                <div class="lab-card-header">
+                    <h3><i class="fas fa-terminal"></i> Output</h3>
+                    <span class="lab-meta" id="runMeta">Ready</span>
+                </div>
+                <div class="lab-card-body">
+                    <pre id="codeOutput" class="lab-output">Run your code to see output here.</pre>
+                    <div id="plotOutputWrap" class="plot-output" hidden>
+                        <p class="plot-title">Generated Plot</p>
+                        <img id="plotOutputImage" alt="Generated matplotlib plot">
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        function getUser() {
+            const raw = localStorage.getItem('user');
+            if (!raw) return null;
+            try {
+                return JSON.parse(raw);
+            } catch (error) {
+                return null;
+            }
+        }
+
+        const user = getUser();
+        const userLabel = document.getElementById('labUserInfo');
+        const runBtn = document.getElementById('runCodeBtn');
+        const clearBtn = document.getElementById('clearCodeBtn');
+        const output = document.getElementById('codeOutput');
+        const runMeta = document.getElementById('runMeta');
+        const editor = document.getElementById('codeEditor');
+        const languageSelect = document.getElementById('languageSelect');
+        const stdinInput = document.getElementById('stdinInput');
+        const plotOutputWrap = document.getElementById('plotOutputWrap');
+        const plotOutputImage = document.getElementById('plotOutputImage');
+        const snippetNameInput = document.getElementById('snippetNameInput');
+        const snippetSelect = document.getElementById('snippetSelect');
+        const saveSnippetBtn = document.getElementById('saveSnippetBtn');
+        const loadSnippetBtn = document.getElementById('loadSnippetBtn');
+        const deleteSnippetBtn = document.getElementById('deleteSnippetBtn');
+
+        if (!user || !user.email) {
+            alert('Please login first to use Code Lab.');
+            window.location.href = 'login.html';
+        } else {
+            userLabel.textContent = user.email;
+        }
+
+        function getSnippetStorageKey() {
+            return `codeLabSnippets::${String(user.email || '').toLowerCase()}`;
+        }
+
+        function loadSnippets() {
+            try {
+                const raw = localStorage.getItem(getSnippetStorageKey());
+                const parsed = raw ? JSON.parse(raw) : [];
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function saveSnippets(items) {
+            localStorage.setItem(getSnippetStorageKey(), JSON.stringify(items));
+        }
+
+        function refreshSnippetSelect() {
+            const snippets = loadSnippets();
+            snippetSelect.innerHTML = '<option value="">Select snippet</option>' +
+                snippets.map((s, idx) => `<option value="${idx}">${s.name}</option>`).join('');
+        }
+
+        async function loadLanguages() {
+            try {
+                const response = await fetch('/api/code/languages');
+                if (!response.ok) return;
+                const langs = await response.json();
+                if (!Array.isArray(langs) || !langs.length) return;
+                languageSelect.innerHTML = langs.map(l => `<option value="${l.id}">${l.label}</option>`).join('');
+            } catch (error) {
+                // Keep default language on API error.
+            }
+        }
+
+        function detectLanguageFromCode(code) {
+            const src = String(code || '');
+            if (/\bSELECT\b|\bINSERT\s+INTO\b|\bUPDATE\b|\bDELETE\s+FROM\b|\bCREATE\s+TABLE\b|\bDROP\s+TABLE\b/i.test(src)) return 'sql';
+            if (/^\s*<\?php/.test(src) || /\becho\s+/.test(src) || /\$\w+\s*=/.test(src)) return 'php';
+            if (/\busing\s+System\s*;/.test(src) || /\bnamespace\s+\w+/.test(src) || /\bConsole\.Write(?:Line)?\s*\(/.test(src)) return 'csharp';
+            if (/\bpackage\s+main\b/.test(src) || /\bfunc\s+main\s*\(\s*\)/.test(src) || /\bfmt\.Print(?:ln|f)?\s*\(/.test(src)) return 'go';
+            if (/\bputs\s+/.test(src) || /\bdef\s+\w+[!?=]?\s*(?:\(|$)/.test(src) || /\bend\b/.test(src)) return 'ruby';
+            if (/\bpublic\s+class\b/.test(src) || /\bSystem\.out\.println\b/.test(src)) return 'java';
+            if (/^\s*#include\s*</m.test(src)) {
+                if (/\bstd::|using\s+namespace\s+std\b|cout\s*<</.test(src)) return 'cpp';
+                return 'c';
+            }
+            if (/\bdef\s+\w+\s*\(|\bprint\s*\(/.test(src) && !/[{};]/.test(src)) return 'python';
+            if (/\bconst\b|\blet\b|\bconsole\.log\b/.test(src)) return 'javascript';
+            return '';
+        }
+
+        clearBtn.addEventListener('click', () => {
+            editor.value = '';
+            output.className = 'lab-output';
+            output.textContent = 'Editor cleared.';
+            plotOutputImage.src = '';
+            plotOutputWrap.hidden = true;
+            runMeta.textContent = 'Ready';
+        });
+
+        saveSnippetBtn.addEventListener('click', () => {
+            const name = (snippetNameInput.value || '').trim();
+            if (!name) {
+                alert('Enter snippet name.');
+                return;
+            }
+            const snippets = loadSnippets();
+            const existingIndex = snippets.findIndex(s => s.name === name);
+            const payload = { name, code: editor.value, language: languageSelect.value, stdin: stdinInput.value || '' };
+            if (existingIndex >= 0) {
+                snippets[existingIndex] = payload;
+            } else {
+                snippets.unshift(payload);
+            }
+            saveSnippets(snippets.slice(0, 30));
+            refreshSnippetSelect();
+            snippetNameInput.value = '';
+            runMeta.textContent = 'Snippet saved';
+        });
+
+        loadSnippetBtn.addEventListener('click', () => {
+            const idx = Number(snippetSelect.value);
+            if (!Number.isInteger(idx)) return;
+            const snippets = loadSnippets();
+            const selected = snippets[idx];
+            if (!selected) return;
+            editor.value = selected.code || '';
+            stdinInput.value = selected.stdin || '';
+            if (selected.language) {
+                languageSelect.value = selected.language;
+            }
+            runMeta.textContent = `Loaded: ${selected.name}`;
+        });
+
+        deleteSnippetBtn.addEventListener('click', () => {
+            const idx = Number(snippetSelect.value);
+            if (!Number.isInteger(idx)) return;
+            const snippets = loadSnippets();
+            if (!snippets[idx]) return;
+            const ok = confirm(`Delete snippet "${snippets[idx].name}"?`);
+            if (!ok) return;
+            snippets.splice(idx, 1);
+            saveSnippets(snippets);
+            refreshSnippetSelect();
+            runMeta.textContent = 'Snippet deleted';
+        });
+
+        runBtn.addEventListener('click', async () => {
+            const code = editor.value || '';
+            if (!code.trim()) {
+                output.className = 'lab-output error';
+                output.textContent = 'Please write some code first.';
+                return;
+            }
+
+            const detected = detectLanguageFromCode(code);
+            if (detected && languageSelect.value !== detected) {
+                languageSelect.value = detected;
+                runMeta.textContent = `Auto-switched language to ${detected.toUpperCase()}`;
+            }
+
+            runBtn.disabled = true;
+            runBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Running...';
+            runMeta.textContent = 'Executing...';
+
+            try {
+                const response = await fetch('/api/code/run', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: user.email,
+                        language: languageSelect.value,
+                        code,
+                        stdin: stdinInput.value || ''
+                    })
+                });
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    output.className = 'lab-output error';
+                    output.textContent = data.message || 'Execution failed.';
+                    plotOutputImage.src = '';
+                    plotOutputWrap.hidden = true;
+                    runMeta.textContent = 'Failed';
+                    return;
+                }
+
+                const chunks = [];
+                if (data.stdout) chunks.push(`STDOUT:\n${data.stdout}`);
+                if (data.stderr) chunks.push(`STDERR:\n${data.stderr}`);
+                if (!chunks.length && data.plotImage) {
+                    chunks.push('Plot generated successfully.');
+                }
+                if (!chunks.length) chunks.push('Execution finished with no output.');
+
+                output.className = data.stderr ? 'lab-output error' : 'lab-output success';
+                output.textContent = chunks.join('\n\n');
+                if (data.plotImage) {
+                    plotOutputImage.src = data.plotImage;
+                    plotOutputWrap.hidden = false;
+                } else {
+                    plotOutputImage.src = '';
+                    plotOutputWrap.hidden = true;
+                }
+                runMeta.textContent = `Done in ${data.durationMs || 0} ms`;
+            } catch (error) {
+                output.className = 'lab-output error';
+                output.textContent = `Network error: ${error.message || 'Unknown error'}`;
+                plotOutputImage.src = '';
+                plotOutputWrap.hidden = true;
+                runMeta.textContent = 'Failed';
+            } finally {
+                runBtn.disabled = false;
+                runBtn.innerHTML = '<i class="fas fa-play"></i> Run Code';
+            }
+        });
+
+        loadLanguages();
+        refreshSnippetSelect();
+    </script>
+</body>
+</html>

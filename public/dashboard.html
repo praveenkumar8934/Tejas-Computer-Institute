@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | Tejas Computer Institute</title>
+    <meta name="description" content="Student dashboard - access your courses, progress, and materials.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .user-details h2 {
+            margin-bottom: 5px;
+        }
+        
+        .user-details p {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .btn-logout {
+            padding: 12px 25px;
+            background: #dc3545;
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .btn-logout:hover {
+            background: #c82333;
+        }
+        
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+        }
+        
+        .stat-content h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .stat-content p {
+            font-size: 0.9rem;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.65fr) minmax(320px, 1fr);
+            gap: 24px;
+            align-items: start;
+        }
+
+        .dashboard-main,
+        .dashboard-side {
+            display: grid;
+            gap: 24px;
+        }
+        
+        .dashboard-card {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 1px solid rgba(0, 102, 204, 0.08);
+            transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+        }
+
+        .dashboard-card:hover,
+        .dashboard-card:focus-within {
+            box-shadow: 0 16px 36px rgba(8, 65, 132, 0.14);
+            border-color: rgba(0, 102, 204, 0.24);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            padding: 20px 25px;
+            color: var(--white);
+        }
+        
+        .card-header h3 {
+            color: var(--white);
+            margin: 0;
+        }
+        
+        .card-body {
+            padding: 25px;
+        }
+        
+        .course-progress {
+            margin-bottom: 20px;
+        }
+
+        .course-progress-item {
+            padding: 14px;
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(10, 31, 68, 0.04);
+            transform: translateY(0);
+            transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease, background-color 0.28s ease;
+        }
+        
+        .course-progress:last-child {
+            margin-bottom: 0;
+        }
+        
+        .course-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .course-info h4 {
+            font-size: 1rem;
+        }
+        
+        .course-info span {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: var(--light-gray);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .course-continue-link {
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: var(--primary-color);
+            color: var(--white);
+            font-size: 0.82rem;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(5px);
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.25s ease;
+        }
+
+        .course-continue-link.always-visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .course-continue-link:hover {
+            background: var(--primary-dark);
+            color: var(--white);
+        }
+
+        .course-progress-item:focus-within .course-continue-link {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .course-progress-item:focus-within {
+            transform: translateY(-2px);
+            border-color: rgba(0, 102, 204, 0.32);
+            background: #f3f8ff;
+            box-shadow: 0 10px 22px rgba(0, 68, 153, 0.12);
+        }
+        
+        .notification-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background: var(--light-bg);
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .notification-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            flex-shrink: 0;
+        }
+        
+        .notification-content h4 {
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+        
+        .notification-content p {
+            font-size: 0.85rem;
+            color: var(--gray-text);
+        }
+        
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .quick-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            background: var(--light-bg);
+            border-radius: 15px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .quick-link:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .quick-link:hover i,
+        .quick-link:hover p {
+            color: var(--white);
+        }
+        
+        .quick-link i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .quick-link p {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .gamification-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .game-chip {
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .game-chip h4 {
+            margin: 0 0 4px;
+            font-size: 1rem;
+        }
+
+        .game-chip p {
+            margin: 0;
+            color: var(--gray-text);
+            font-size: 0.84rem;
+        }
+
+        .level-track {
+            height: 10px;
+            border-radius: 999px;
+            background: var(--light-gray);
+            overflow: hidden;
+            margin: 10px 0 6px;
+        }
+
+        .level-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #f59f00, #ff6b6b);
+        }
+
+        .badge-wall {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .badge-item {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 10px;
+            background: #f9fbff;
+            opacity: 0.45;
+        }
+
+        .badge-item.unlocked {
+            opacity: 1;
+            background: #fff7e9;
+            border-color: #ffd493;
+        }
+
+        .badge-item i {
+            color: #d9822b;
+            margin-right: 6px;
+        }
+
+        .badge-item h5 {
+            margin: 0 0 4px;
+            font-size: 0.9rem;
+        }
+
+        .badge-item p {
+            margin: 0;
+            font-size: 0.75rem;
+            color: var(--gray-text);
+        }
+
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .leaderboard-row {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 10px;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 10px 12px;
+            background: var(--light-bg);
+        }
+
+        .leaderboard-row.current-user {
+            border-color: var(--primary-color);
+            background: #eef7ff;
+        }
+
+        .leaderboard-rank {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: var(--white);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .leaderboard-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .leaderboard-score {
+            font-size: 0.82rem;
+            color: var(--gray-text);
+        }
+
+        .intelligence-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .intel-card {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            background: var(--light-bg);
+        }
+
+        .intel-card h4 {
+            margin: 0 0 6px;
+            font-size: 0.95rem;
+            color: var(--primary-dark);
+        }
+
+        .intel-card p {
+            margin: 0;
+            font-size: 0.86rem;
+            color: var(--gray-text);
+        }
+
+        .mentor-note {
+            border: 1px solid #a9cbff;
+            background: #eef5ff;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .mentor-note h4 {
+            margin: 0 0 6px;
+            color: #0b4f9f;
+            font-size: 0.98rem;
+        }
+
+        .mentor-note p {
+            margin: 0;
+            color: #244a6d;
+            font-size: 0.88rem;
+        }
+
+        .mentor-chat-box {
+            margin-top: 10px;
+            display: grid;
+            gap: 8px;
+        }
+
+        .mentor-chat-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .mentor-chat-row input {
+            flex: 1;
+            min-width: 220px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-family: inherit;
+        }
+
+        .mentor-chat-reply {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 12px;
+            background: #f8fbff;
+            color: var(--dark-text);
+            font-size: 0.87rem;
+            min-height: 54px;
+        }
+
+        .mentor-suggestion-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .mentor-suggestion {
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            background: transparent;
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 0.78rem;
+            cursor: pointer;
+        }
+
+        .mentor-provider {
+            font-size: 0.76rem;
+            color: var(--gray-text);
+        }
+        
+        .login-prompt {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .login-prompt i {
+            font-size: 4rem;
+            color: var(--border-color);
+            margin-bottom: 20px;
+        }
+        
+        .login-prompt h3 {
+            margin-bottom: 15px;
+        }
+        
+        .login-prompt p {
+            margin-bottom: 25px;
+        }
+        
+        @media (max-width: 992px) {
+            .dashboard-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-main,
+            .dashboard-side {
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .user-info {
+                flex-direction: column;
+            }
+            
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-links {
+                grid-template-columns: 1fr;
+            }
+
+            .gamification-grid,
+            .badge-wall,
+            .intelligence-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .course-continue-link {
+                opacity: 1;
+                transform: translateY(0);
+                pointer-events: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">TC</div>
+                    <div class="logo-text">Tejas <span>Computer</span></div>
+                </a>
+                
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="courses.html" class="nav-link">Courses</a></li>
+                    <li><a href="dashboard.html" class="nav-link active">Dashboard</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Dashboard -->
+    <div class="dashboard-container">
+        <div id="dashboardContent">
+            <!-- Content will be loaded dynamically -->
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    
+    <script>
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', async function() {
+            const user = localStorage.getItem('user');
+
+            if (!user) {
+                showLoginPrompt();
+                return;
+            }
+
+            try {
+                const userData = JSON.parse(user);
+                await showDashboard(userData);
+            } catch (error) {
+                showLoginPrompt();
+            }
+        });
+        
+        function showLoginPrompt() {
+            const container = document.getElementById('dashboardContent');
+            container.innerHTML = `
+                <div class="dashboard-card">
+                    <div class="login-prompt">
+                        <i class="fas fa-user-lock"></i>
+                        <h3>Please Login</h3>
+                        <p>You need to be logged in to access your student dashboard.</p>
+                        <a href="login.html" class="btn btn-primary">Login</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function slugifyText(value) {
+            return String(value || '')
+                .toLowerCase()
+                .replace(/&/g, 'and')
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/(^-|-$)/g, '');
+        }
+
+        function getProgressOwnerKey() {
+            const userRaw = localStorage.getItem('user');
+            if (!userRaw) return 'guest';
+            try {
+                const user = JSON.parse(userRaw);
+                return String(user.email || 'guest').trim().toLowerCase() || 'guest';
+            } catch (error) {
+                return 'guest';
+            }
+        }
+
+        function getStoredCourseProgress() {
+            const progress = [];
+            const ownerKey = getProgressOwnerKey();
+            const keyPrefix = `courseProgress::${ownerKey}::`;
+            for (let i = 0; i < localStorage.length; i += 1) {
+                const key = localStorage.key(i);
+                if (!key || !key.startsWith(keyPrefix)) continue;
+                try {
+                    const data = JSON.parse(localStorage.getItem(key));
+                    if (data && data.courseTitle && typeof data.percent === 'number' && (data.completedCount || 0) > 0) {
+                        progress.push(data);
+                    }
+                } catch (error) {
+                    // Ignore invalid progress entries.
+                }
+            }
+            return progress;
+        }
+
+        async function syncStoredProgressToServer(user, progressList) {
+            if (!user || !user.email || !Array.isArray(progressList) || !progressList.length) return;
+            try {
+                await Promise.allSettled(progressList.map(item => fetch('/api/users/progress', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: user.email,
+                        courseSlug: item.courseSlug,
+                        courseTitle: item.courseTitle,
+                        completedCount: item.completedCount || 0,
+                        totalTopics: item.totalTopics || 0,
+                        percent: item.percent || 0
+                    })
+                })));
+            } catch (error) {
+                // Ignore sync errors to avoid blocking dashboard.
+            }
+        }
+
+        async function fetchGamificationData(email, fallbackUser) {
+            const fallbackSummary = fallbackUser && fallbackUser.gamification
+                ? {
+                    xp: fallbackUser.gamification.xp || 0,
+                    level: fallbackUser.gamification.level || 1,
+                    levelProgressPercent: Math.max(0, Math.min(100, Math.round(((fallbackUser.gamification.xp || 0) % 250) / 2.5))),
+                    nextLevelXp: ((fallbackUser.gamification.level || 1) * 250),
+                    streakCurrent: fallbackUser.gamification.streakCurrent || 0,
+                    streakLongest: fallbackUser.gamification.streakLongest || 0,
+                    weeklyChallenge: {
+                        label: 'Weekly Sprint',
+                        targetTopics: 10,
+                        rewardXp: 120,
+                        topicsCompleted: 0,
+                        rewardClaimed: false,
+                        progressPercent: 0
+                    },
+                    badges: []
+                }
+                : {
+                    xp: 0,
+                    level: 1,
+                    levelProgressPercent: 0,
+                    nextLevelXp: 250,
+                    streakCurrent: 0,
+                    streakLongest: 0,
+                    weeklyChallenge: {
+                        label: 'Weekly Sprint',
+                        targetTopics: 10,
+                        rewardXp: 120,
+                        topicsCompleted: 0,
+                        rewardClaimed: false,
+                        progressPercent: 0
+                    },
+                    badges: []
+                };
+
+            try {
+                const [summaryRes, leaderboardRes] = await Promise.all([
+                    fetch(`/api/gamification/summary?email=${encodeURIComponent(email)}`),
+                    fetch(`/api/gamification/leaderboard?email=${encodeURIComponent(email)}`)
+                ]);
+
+                const summaryPayload = summaryRes.ok ? await summaryRes.json() : null;
+                const leaderboardPayload = leaderboardRes.ok ? await leaderboardRes.json() : null;
+                return {
+                    summary: summaryPayload && summaryPayload.success ? summaryPayload.summary : fallbackSummary,
+                    leaderboard: leaderboardPayload && leaderboardPayload.success ? leaderboardPayload.leaderboard : []
+                };
+            } catch (error) {
+                return {
+                    summary: fallbackSummary,
+                    leaderboard: []
+                };
+            }
+        }
+
+        async function fetchMentorBrief(email) {
+            if (!email) return null;
+            try {
+                const response = await fetch(`/api/mentor/brief?email=${encodeURIComponent(email)}`);
+                const data = await response.json();
+                if (!response.ok || !data.success) return null;
+                return data.mentor || null;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        async function askMentor(email, message) {
+            if (!email || !message) return null;
+            try {
+                const response = await fetch('/api/mentor/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, message })
+                });
+                const data = await response.json();
+                if (!response.ok || !data.success) return null;
+                return data;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function bindMentorChat(email) {
+            const input = document.getElementById('mentorQuestionInput');
+            const askBtn = document.getElementById('mentorAskBtn');
+            const replyBox = document.getElementById('mentorReplyBox');
+            const suggestionsWrap = document.getElementById('mentorSuggestionList');
+            const providerEl = document.getElementById('mentorProviderLabel');
+            if (!input || !askBtn || !replyBox || !suggestionsWrap) return;
+
+            const renderSuggestions = (items) => {
+                const list = Array.isArray(items) ? items.filter(Boolean) : [];
+                suggestionsWrap.innerHTML = list.map(item => (
+                    `<button type=\"button\" class=\"mentor-suggestion\" data-q=\"${item.replace(/\"/g, '&quot;')}\">${item}</button>`
+                )).join('');
+
+                suggestionsWrap.querySelectorAll('.mentor-suggestion').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        input.value = btn.getAttribute('data-q') || '';
+                        askBtn.click();
+                    });
+                });
+            };
+
+            askBtn.addEventListener('click', async () => {
+                const message = String(input.value || '').trim();
+                if (!message) return;
+
+                askBtn.disabled = true;
+                askBtn.innerHTML = '<i class=\"fas fa-spinner fa-spin\"></i> Asking...';
+                const response = await askMentor(email, message);
+                if (!response) {
+                    replyBox.textContent = 'Mentor is unavailable right now. Please try again.';
+                    if (providerEl) providerEl.textContent = 'Provider: unavailable';
+                } else {
+                    replyBox.textContent = response.reply || 'No response from mentor.';
+                    if (providerEl) {
+                        providerEl.textContent = response.provider === 'chatgpt'
+                            ? 'Provider: ChatGPT'
+                            : (response.provider === 'gemini'
+                                ? 'Provider: Google Gemini'
+                                : 'Provider: Smart Mentor Engine');
+                    }
+                    renderSuggestions(response.suggestions || []);
+                }
+                askBtn.disabled = false;
+                askBtn.innerHTML = '<i class=\"fas fa-paper-plane\"></i> Ask';
+            });
+
+            const bootSuggestions = Array.from(suggestionsWrap.querySelectorAll('.mentor-suggestion'))
+                .map(btn => btn.getAttribute('data-q') || btn.textContent || '')
+                .filter(Boolean);
+            renderSuggestions(bootSuggestions);
+        }
+
+        async function showDashboard(user) {
+            const container = document.getElementById('dashboardContent');
+            const initials = user.firstName.charAt(0) + (user.lastName ? user.lastName.charAt(0) : '');
+            const storedProgress = getStoredCourseProgress();
+            await syncStoredProgressToServer(user, storedProgress);
+            const gamificationData = await fetchGamificationData(user.email, user);
+            const mentor = await fetchMentorBrief(user.email);
+            const summary = gamificationData.summary || {
+                xp: 0,
+                level: 1,
+                levelProgressPercent: 0,
+                nextLevelXp: 250,
+                streakCurrent: 0,
+                streakLongest: 0,
+                weeklyChallenge: {
+                    label: 'Weekly Sprint',
+                    targetTopics: 10,
+                    rewardXp: 120,
+                    topicsCompleted: 0,
+                    rewardClaimed: false,
+                    progressPercent: 0
+                },
+                badges: []
+            };
+            const rankText = (summary.rankAmongStudents || summary.rank)
+                ? `#${summary.rankAmongStudents || summary.rank} of ${summary.totalStudents || 0}`
+                : 'Not ranked yet';
+            const overallCompletionPercent = storedProgress.length
+                ? Math.round(storedProgress.reduce((sum, p) => sum + (p.percent || 0), 0) / storedProgress.length)
+                : 0;
+            const studyHours = (storedProgress.reduce((sum, p) => sum + (p.completedCount || 0), 0) * 0.5);
+            const skillsLearned = storedProgress
+                .filter(p => (p.percent || 0) >= 40)
+                .sort((a, b) => (b.percent || 0) - (a.percent || 0))
+                .slice(0, 4)
+                .map(p => `${p.courseTitle} fundamentals`);
+            const weakAreas = storedProgress
+                .filter(p => (p.percent || 0) < 50)
+                .sort((a, b) => (a.percent || 0) - (b.percent || 0))
+                .slice(0, 4)
+                .map(p => `${p.courseTitle} (${p.percent || 0}%)`);
+            const unlockedBadges = Array.isArray(summary.badges) ? summary.badges.filter(b => b.unlocked) : [];
+            const badgeRows = (summary.badges && summary.badges.length
+                ? summary.badges
+                : [{
+                    id: 'starter',
+                    label: 'Getting Started',
+                    icon: 'fa-seedling',
+                    description: 'Complete actions to unlock badges.',
+                    unlocked: false
+                }])
+                .map(badge => `
+                    <div class="badge-item ${badge.unlocked ? 'unlocked' : ''}">
+                        <h5><i class="fas ${badge.icon || 'fa-award'}"></i>${badge.label}</h5>
+                        <p>${badge.description || ''}</p>
+                    </div>
+                `).join('');
+            const leaderboardRows = (gamificationData.leaderboard || []).slice(0, 7).map(item => `
+                <div class="leaderboard-row ${item.currentUser ? 'current-user' : ''}">
+                    <span class="leaderboard-rank">${item.rank}</span>
+                    <div>
+                        <div class="leaderboard-name">${item.name || item.email}</div>
+                        <div class="leaderboard-score">Level ${item.level} • Streak ${item.streak}</div>
+                    </div>
+                    <strong>${item.xp} XP</strong>
+                </div>
+            `).join('');
+            const enrolledCourses = Array.isArray(user.enrolledCourses) && user.enrolledCourses.length
+                ? user.enrolledCourses
+                    .map(item => ({
+                        title: String(item?.title || '').trim(),
+                        slug: String(item?.slug || slugifyText(item?.title || '')).trim()
+                    }))
+                    .filter(item => item.title && item.slug)
+                : [];
+            const primaryEnrolled = enrolledCourses[0] || null;
+            const enrolledSlug = primaryEnrolled ? primaryEnrolled.slug : '';
+            const progressBySlug = new Map(storedProgress.map(p => [p.courseSlug, p]));
+            const currentProgress = progressBySlug.get(enrolledSlug) || null;
+            const fallbackProgress = storedProgress[0] || null;
+            const enrolledCourseTitle = primaryEnrolled
+                ? primaryEnrolled.title
+                : (fallbackProgress ? fallbackProgress.courseTitle : '');
+            const enrolledCourseSlug = enrolledSlug || (fallbackProgress ? fallbackProgress.courseSlug : '');
+            const enrolledCourseLink = enrolledCourseSlug
+                ? `course-details.html?course=${encodeURIComponent(enrolledCourseSlug)}`
+                : 'courses.html';
+            const avgPercent = storedProgress.length
+                ? Math.round(storedProgress.reduce((sum, p) => sum + (p.percent || 0), 0) / storedProgress.length)
+                : 0;
+            const overallPercent = currentProgress ? currentProgress.percent : avgPercent;
+            const certificateCount = storedProgress.filter(p => (p.percent || 0) >= 100).length;
+            const totalHours = (storedProgress.reduce((sum, p) => sum + (p.completedCount || 0), 0) * 0.5).toFixed(1);
+            const enrolledProgressPercent = currentProgress
+                ? currentProgress.percent
+                : (fallbackProgress && enrolledCourseSlug === fallbackProgress.courseSlug ? fallbackProgress.percent : 0);
+            const mergedCourses = [];
+            enrolledCourses.forEach(item => {
+                const progress = progressBySlug.get(item.slug);
+                mergedCourses.push({
+                    courseSlug: item.slug,
+                    courseTitle: item.title,
+                    percent: progress ? (progress.percent || 0) : 0
+                });
+            });
+
+            storedProgress.forEach(item => {
+                const exists = mergedCourses.some(course => course.courseSlug === item.courseSlug);
+                if (!exists) {
+                    mergedCourses.push({
+                        courseSlug: item.courseSlug,
+                        courseTitle: item.courseTitle,
+                        percent: item.percent || 0
+                    });
+                }
+            });
+
+            const filteredCourses = mergedCourses.filter(course => {
+                if (!enrolledCourseSlug) return true;
+                return course.courseSlug !== enrolledCourseSlug;
+            });
+
+            const progressRows = filteredCourses.length
+                ? filteredCourses
+                    .sort((a, b) => (b.percent || 0) - (a.percent || 0))
+                    .map(p => `
+                        <div class="course-progress course-progress-item">
+                            <div class="course-info">
+                                <h4><a href="course-details.html?course=${encodeURIComponent(p.courseSlug)}">${p.courseTitle}</a></h4>
+                                <span>${p.percent || 0}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${p.percent || 0}%"></div>
+                            </div>
+                            <a href="course-details.html?course=${encodeURIComponent(p.courseSlug)}" class="course-continue-link always-visible">
+                                <i class="fas fa-play-circle"></i> Continue Learning
+                            </a>
+                        </div>
+                    `).join('')
+                : `
+                    <div class="course-progress">
+                        <div class="course-info">
+                            <h4>${enrolledCourseTitle ? 'No additional courses yet' : 'No enrolled courses yet'}</h4>
+                            <span>0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <p style="text-align: center; color: var(--gray-text); margin-top: 20px;">
+                        <i class="fas fa-info-circle"></i> ${enrolledCourseTitle ? 'Enroll in another course to see it here.' : 'Select any course and click Enroll Now to add it here.'}
+                    </p>
+                `;
+            
+            container.innerHTML = `
+                <div class="dashboard-header">
+                    <div class="user-info">
+                        <div class="user-avatar">${initials}</div>
+                        <div class="user-details">
+                            <h2>Welcome, ${user.firstName} ${user.lastName || ''}!</h2>
+                            <p>${user.email}</p>
+                        </div>
+                    </div>
+                    <button class="btn-logout" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+                
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>${enrolledCourseTitle || 'Not Enrolled'}</h3>
+                            <p>Current Course</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>${overallPercent}%</h3>
+                            <p>Progress</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>${summary.xp || 0}</h3>
+                            <p>Total XP</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>${summary.streakCurrent || 0} Day${(summary.streakCurrent || 0) === 1 ? '' : 's'}</h3>
+                            <p>Daily Streak</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <div class="dashboard-main">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-tasks"></i> Course Progress</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="course-progress" style="margin-bottom: 20px;">
+                                    <div class="course-info">
+                                        <h4>${enrolledCourseTitle || 'No enrolled course yet'}</h4>
+                                        <span>${enrolledCourseTitle ? `${enrolledProgressPercent}%` : '-'}</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: ${enrolledCourseTitle ? enrolledProgressPercent : 0}%"></div>
+                                    </div>
+                                    <a href="${enrolledCourseLink}" class="course-continue-link always-visible">
+                                        <i class="fas fa-play-circle"></i> Continue Learning
+                                    </a>
+                                </div>
+                                ${progressRows}
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-brain"></i> Progress Intelligence Dashboard</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="intelligence-grid">
+                                    <div class="intel-card">
+                                        <h4>Skills Learned</h4>
+                                        <p>${skillsLearned.length ? skillsLearned.join(', ') : 'Complete more topics to unlock skill insights.'}</p>
+                                    </div>
+                                    <div class="intel-card">
+                                        <h4>Weak Areas</h4>
+                                        <p>${weakAreas.length ? weakAreas.join(', ') : 'No weak areas detected yet. Keep the streak going.'}</p>
+                                    </div>
+                                    <div class="intel-card">
+                                        <h4>Study Time</h4>
+                                        <p>${studyHours.toFixed(1)} hours tracked from completed topics.</p>
+                                    </div>
+                                    <div class="intel-card">
+                                        <h4>Completion %</h4>
+                                        <p>${overallCompletionPercent}% average completion across active courses.</p>
+                                    </div>
+                                    <div class="intel-card">
+                                        <h4>Rank Among Students</h4>
+                                        <p>${rankText}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-ranking-star"></i> Leaderboard</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="leaderboard-list">
+                                    ${leaderboardRows || '<p style="color: var(--gray-text); margin: 0;">No leaderboard data yet.</p>'}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-link"></i> Quick Links</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="quick-links">
+                                    <a href="courses.html" class="quick-link">
+                                        <i class="fas fa-book"></i>
+                                        <p>Courses</p>
+                                    </a>
+                                    <a href="${enrolledCourseLink}" class="quick-link">
+                                        <i class="fas fa-list-check"></i>
+                                        <p>My Syllabus</p>
+                                    </a>
+                                    <a href="contact.html" class="quick-link">
+                                        <i class="fas fa-envelope"></i>
+                                        <p>Contact</p>
+                                    </a>
+                                    <a href="code-lab.html" class="quick-link">
+                                        <i class="fas fa-code"></i>
+                                        <p>Code Lab</p>
+                                    </a>
+                                    <a href="skill-analyzer.html" class="quick-link">
+                                        <i class="fas fa-brain"></i>
+                                        <p>Skill Analyzer</p>
+                                    </a>
+                                    <a href="career-path.html" class="quick-link">
+                                        <i class="fas fa-bullseye"></i>
+                                        <p>Career Path</p>
+                                    </a>
+                                    <a href="practice-arena.html" class="quick-link">
+                                        <i class="fas fa-puzzle-piece"></i>
+                                        <p>Practice Arena</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-side">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-user-graduate"></i> AI Personal Mentor</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="mentor-note">
+                                    <h4>${mentor?.greeting || 'Hi, I am your AI Mentor.'}</h4>
+                                    <p>${mentor?.mainMessage || 'Complete your next topic today to stay consistent with your learning goal.'}</p>
+                                </div>
+                                <div class="mentor-note">
+                                    <h4>Study Focus</h4>
+                                    <p>${mentor?.nextStudy || 'Open your enrolled course and continue from pending topics.'}</p>
+                                </div>
+                                <div class="mentor-note" style="margin-bottom: 0;">
+                                    <h4>Daily Reminder</h4>
+                                    <p>${mentor?.reminder?.message || 'Daily reminders will appear as you progress.'}</p>
+                                </div>
+                                <div class="mentor-chat-box">
+                                    <div class="mentor-chat-row">
+                                        <input id="mentorQuestionInput" placeholder="Ask AI Mentor: What should I study next?">
+                                        <button id="mentorAskBtn" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Ask</button>
+                                    </div>
+                                    <div id="mentorReplyBox" class="mentor-chat-reply">
+                                        Ask me anything about your learning plan, weak areas, daily schedule, or career path.
+                                    </div>
+                                    <div id="mentorProviderLabel" class="mentor-provider">Provider: Smart Mentor Engine</div>
+                                    <div id="mentorSuggestionList" class="mentor-suggestion-list">
+                                        <button type="button" class="mentor-suggestion" data-q="What should I study next?">What should I study next?</button>
+                                        <button type="button" class="mentor-suggestion" data-q="Show my weak areas">Show my weak areas</button>
+                                        <button type="button" class="mentor-suggestion" data-q="Create daily plan">Create daily plan</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-gamepad"></i> Gamification Hub</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="gamification-grid">
+                                    <div class="game-chip">
+                                        <h4>Level ${summary.level || 1}</h4>
+                                        <p>${summary.xp || 0} XP earned</p>
+                                    </div>
+                                    <div class="game-chip">
+                                        <h4>${unlockedBadges.length}</h4>
+                                        <p>Badges unlocked</p>
+                                    </div>
+                                </div>
+                                <div class="level-track">
+                                    <div class="level-fill" style="width: ${summary.levelProgressPercent || 0}%"></div>
+                                </div>
+                                <p style="font-size: 0.82rem; color: var(--gray-text); margin: 0;">
+                                    ${summary.levelProgressPercent || 0}% to Level ${(summary.level || 1) + 1} (next at ${summary.nextLevelXp || 250} XP)
+                                </p>
+                                <div class="gamification-grid" style="margin-top: 10px;">
+                                    <div class="game-chip">
+                                        <h4>${summary.streakCurrent || 0} 🔥</h4>
+                                        <p>Current streak</p>
+                                    </div>
+                                    <div class="game-chip">
+                                        <h4>${summary.streakLongest || 0}</h4>
+                                        <p>Best streak</p>
+                                    </div>
+                                </div>
+                                <div class="game-chip" style="margin-top: 10px;">
+                                    <h4>${summary.weeklyChallenge?.label || 'Weekly Sprint'}: ${summary.weeklyChallenge?.topicsCompleted || 0}/${summary.weeklyChallenge?.targetTopics || 0}</h4>
+                                    <p>${summary.weeklyChallenge?.rewardClaimed ? 'Reward claimed' : `Complete weekly target to earn ${summary.weeklyChallenge?.rewardXp || 0} XP`}</p>
+                                    <div class="level-track">
+                                        <div class="level-fill" style="width: ${summary.weeklyChallenge?.progressPercent || 0}%"></div>
+                                    </div>
+                                </div>
+                                <div class="badge-wall">
+                                    ${badgeRows}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-bell"></i> Notifications</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="notification-item">
+                                    <div class="notification-icon">
+                                        <i class="fas fa-info"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <h4>Welcome to Tejas!</h4>
+                                        <p>Start your learning journey today.</p>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-icon">
+                                        <i class="fas fa-calendar"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <h4>New Courses Available</h4>
+                                        <p>Check out our latest courses.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            bindMentorChat(user.email);
+            if (typeof initPremiumUX === 'function') {
+                initPremiumUX();
+            }
+        }
+        
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

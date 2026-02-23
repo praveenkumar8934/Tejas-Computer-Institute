@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Career Path Generator | Tejas Computer Institute</title>
+    <meta name="description" content="Select your career goal and get a complete AI-generated learning roadmap.">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .path-container {
+            max-width: 1100px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+
+        .path-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .path-card {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .path-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            padding: 16px 20px;
+        }
+
+        .path-header h3 {
+            margin: 0;
+            color: var(--white);
+            font-size: 1.08rem;
+        }
+
+        .path-body {
+            padding: 18px 20px;
+        }
+
+        .path-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .path-controls select {
+            flex: 1;
+            min-width: 260px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-family: inherit;
+        }
+
+        .stage-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .stage-card {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background: var(--light-bg);
+            padding: 12px;
+        }
+
+        .stage-card h4 {
+            margin: 0 0 6px;
+            color: var(--primary-dark);
+            font-size: 0.95rem;
+        }
+
+        .stage-card p {
+            margin: 0 0 8px;
+            color: var(--gray-text);
+            font-size: 0.83rem;
+        }
+
+        .stage-card ul {
+            margin: 0;
+            padding-left: 18px;
+            color: var(--gray-text);
+            font-size: 0.86rem;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .course-chip {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px;
+            background: #f8fbff;
+        }
+
+        .course-chip h5 {
+            margin: 0 0 4px;
+            font-size: 0.92rem;
+        }
+
+        .course-chip p {
+            margin: 0;
+            color: var(--gray-text);
+            font-size: 0.8rem;
+        }
+
+        .badge-mini {
+            display: inline-block;
+            margin-top: 6px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            background: #e9f7ef;
+            color: #1f7a44;
+        }
+
+        @media (max-width: 920px) {
+            .stage-grid,
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">TC</div>
+                    <div class="logo-text">Tejas <span>Computer</span></div>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="courses.html" class="nav-link">Courses</a></li>
+                    <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                    <li><a href="career-path.html" class="nav-link active">Career Path</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="path-container">
+        <div class="section-title" style="text-align:left; margin-bottom: 20px;">
+            <h2>AI Career Path Generator</h2>
+            <p>Select your goal and get your complete learning roadmap from Foundation to Job Ready.</p>
+        </div>
+
+        <div class="path-grid">
+            <section class="path-card">
+                <div class="path-header">
+                    <h3><i class="fas fa-bullseye"></i> Choose Career Goal</h3>
+                </div>
+                <div class="path-body">
+                    <div class="path-controls">
+                        <select id="goalSelect">
+                            <option value="">Select a career goal</option>
+                        </select>
+                        <button id="generatePathBtn" class="btn btn-primary"><i class="fas fa-wand-magic-sparkles"></i> Generate Roadmap</button>
+                    </div>
+                    <div id="goalHint" style="color: var(--gray-text); font-size: 0.9rem;">Pick a goal to see roadmap.</div>
+                </div>
+            </section>
+
+            <section class="path-card">
+                <div class="path-header">
+                    <h3><i class="fas fa-map"></i> Your Roadmap</h3>
+                </div>
+                <div id="pathResult" class="path-body">
+                    <p style="color: var(--gray-text); margin: 0;">Generated roadmap will appear here.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        const goalSelect = document.getElementById('goalSelect');
+        const generatePathBtn = document.getElementById('generatePathBtn');
+        const pathResult = document.getElementById('pathResult');
+        const goalHint = document.getElementById('goalHint');
+
+        function getUserEmail() {
+            const raw = localStorage.getItem('user');
+            if (!raw) return '';
+            try {
+                const user = JSON.parse(raw);
+                return String(user.email || '').trim().toLowerCase();
+            } catch (error) {
+                return '';
+            }
+        }
+
+        async function loadGoals() {
+            try {
+                const response = await fetch('/api/career-paths/goals');
+                const data = await response.json();
+                if (!response.ok || !data.success || !Array.isArray(data.goals)) return;
+                goalSelect.innerHTML = '<option value="">Select a career goal</option>' + data.goals.map(goal => (
+                    `<option value="${goal.id}">${goal.title}</option>`
+                )).join('');
+            } catch (error) {
+                goalHint.textContent = 'Failed to load goals.';
+            }
+        }
+
+        function renderPath(path) {
+            const stages = Array.isArray(path.roadmap) ? path.roadmap : [];
+            const courses = Array.isArray(path.recommendedCourses) ? path.recommendedCourses : [];
+
+            pathResult.innerHTML = `
+                <h4 style="margin:0 0 8px; color: var(--primary-dark);">${path.title}</h4>
+                <p style="margin:0 0 10px; color: var(--gray-text);">${path.summary || ''}</p>
+                <div class="stage-grid">
+                    ${stages.map(stage => `
+                        <div class="stage-card">
+                            <h4>${stage.stage}</h4>
+                            <p>${stage.duration || ''}</p>
+                            <ul>${(stage.milestones || []).map(item => `<li>${item}</li>`).join('')}</ul>
+                        </div>
+                    `).join('')}
+                </div>
+                <h4 style="margin:14px 0 8px; color: var(--primary-dark);">Recommended Learning Stack</h4>
+                <div class="course-grid">
+                    ${courses.map(course => `
+                        <div class="course-chip">
+                            <h5>${course.title}</h5>
+                            <p>${course.duration || ''} • ${course.level || ''}</p>
+                            ${course.enrolled ? '<span class="badge-mini">Already Enrolled</span>' : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        generatePathBtn.addEventListener('click', async () => {
+            const goal = goalSelect.value;
+            if (!goal) {
+                alert('Please select a career goal.');
+                return;
+            }
+
+            generatePathBtn.disabled = true;
+            generatePathBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            try {
+                const response = await fetch('/api/career-paths/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ goal, email: getUserEmail() })
+                });
+                const data = await response.json();
+                if (!response.ok || !data.success) {
+                    alert(data.message || 'Unable to generate roadmap.');
+                    return;
+                }
+                renderPath(data.careerPath || {});
+            } catch (error) {
+                alert('Network error while generating roadmap.');
+            } finally {
+                generatePathBtn.disabled = false;
+                generatePathBtn.innerHTML = '<i class="fas fa-wand-magic-sparkles"></i> Generate Roadmap';
+            }
+        });
+
+        loadGoals();
+    </script>
+</body>
+</html>

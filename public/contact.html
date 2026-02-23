@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Tejas Computer Institute</title>
+    <meta name="description" content="Contact Tejas Computer Institute for course inquiries, admissions, and more. Located in Kushinagar.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">TC</div>
+                    <div class="logo-text">Tejas <span>Computer</span></div>
+                </a>
+                
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="about.html" class="nav-link">About Us</a></li>
+                    <li><a href="courses.html" class="nav-link">Courses</a></li>
+                    <li><a href="testimonials.html" class="nav-link">Testimonials</a></li>
+                    <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                    <li><a href="faculty.html" class="nav-link">Faculty</a></li>
+                    <li><a href="contact.html" class="nav-link active">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Contact Us</h1>
+            <p>Get in touch with us for course inquiries and admissions</p>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span>/</span>
+                <span>Contact</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact">
+        <div class="container">
+            <div class="contact-grid">
+                <!-- Contact Info -->
+                <div class="contact-info fade-in">
+                    <h3>Get In Touch</h3>
+                    <p>Have questions about our courses? Feel free to reach out to us. We're here to help you start your journey in computer education.</p>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Address</h4>
+                            <p>Dhanaha urf Malludih PO, Karmaini Preamwaliya, Kasia, Kushinagar</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Phone</h4>
+                            <p>+91 8934039262</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <p>pk5952424@gmail.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Working Hours</h4>
+                            <p>Mon - Sat: 8:00 AM - 6:00 PM</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Google Map -->
+                    <div class="contact-map">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3562.543210123456789!2d83.9387654!3d26.7453456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDQ0JzQwLjAiTiA4M8KwNTYnMjAuNCJF!5e0!3m2!1sen!2sin!4v1234567890"
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+                
+                <!-- Contact Form -->
+                <div class="contact-form fade-in">
+                    <h3>Send Us a Message</h3>
+                    
+                    <div class="form-success">
+                        Thank you for your inquiry! We will contact you soon.
+                    </div>
+                    
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="course">Interested Course</label>
+                            <select id="course" name="course">
+                                <option value="">Select a course</option>
+                                <option value="Python Programming">Python Programming</option>
+                                <option value="Java Programming">Java Programming</option>
+                                <option value="C++ Programming">C++ Programming</option>
+                                <option value="Data Science & AI">Data Science & AI</option>
+                                <option value="Web Development">Web Development</option>
+                                <option value="Basic Computer & MS Office">Basic Computer & MS Office</option>
+                                <option value="Tally Prime & GST">Tally Prime & GST</option>
+                                <option value="Digital Skills">Digital Skills</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" placeholder="Write your message here..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Info -->
+    <section class="section" style="background: var(--light-bg);">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>How to Reach Us</h2>
+                <p>Find your way to Tejas Computer Institute</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <h4>By Bus</h4>
+                    <p>Regular bus services to Kasia from all major cities. Get down at Kasia Bus Stand.</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-train"></i>
+                    </div>
+                    <h4>By Train</h4>
+                    <p>Nearest railway station is Kasia Railway Station. Auto-rickshaws available from station.</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h4>By Car</h4>
+                    <p>Located near Kasia Main Road. Parking available for students.</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-question"></i>
+                    </div>
+                    <h4>Need Help?</h4>
+                    <p>Call us at +91 8934039262 for directions and assistance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">TC</div>
+                        <div class="logo-text" style="color: var(--white);">Tejas <span>Computer</span></div>
+                    </a>
+                    <p>Tejas Computer Institute is a leading computer training center dedicated to providing quality education and practical skills to students.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="courses.html">Courses</a></li>
+                        <li><a href="testimonials.html">Testimonials</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Courses</h4>
+                    <ul>
+                        <li><a href="courses.html">Python Programming</a></li>
+                        <li><a href="courses.html">Web Development</a></li>
+                        <li><a href="courses.html">Data Science</a></li>
+                        <li><a href="courses.html">Tally & GST</a></li>
+                        <li><a href="courses.html">MS Office</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Dhanaha urf Malludih PO, Karmaini Preamwaliya, Kasia, Kushinagar</li>
+                        <li><i class="fas fa-phone"></i> +91 8934039262</li>
+                        <li><i class="fas fa-envelope"></i> pk5952424@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Tejas Computer Institute. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>

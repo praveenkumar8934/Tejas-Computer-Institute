@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "firstName": "Praveen",
+    "lastName": "kumar",
+    "email": "pk5952424@gmail.com",
+    "phone": "8934039262",
+    "course": "Data Science & AI",
+    "enrolledCourses": [
+      {
+        "title": "C++ Programming",
+        "slug": "c-programming"
+      },
+      {
+        "title": "Java Programming",
+        "slug": "java-programming"
+      },
+      {
+        "title": "Data Science & AI",
+        "slug": "data-science-and-ai"
+      }
+    ],
+    "gamification": {
+      "xp": 3994,
+      "level": 16,
+      "badges": [
+        "first-enroll",
+        "xp-100",
+        "xp-500",
+        "three-courses"
+      ],
+      "streakCurrent": 2,
+      "streakLongest": 2,
+      "lastActiveDate": "2026-02-23",
+      "weeklyProgress": {
+        "weekKey": "2026-W09",
+        "topicsCompleted": 99,
+        "rewardClaimed": false,
+        "rewardXp": 0
+      },
+      "progressByCourse": {
+        "c-programming": {
+          "courseSlug": "c-programming",
+          "courseTitle": "C++ Programming",
+          "completedCount": 0,
+          "totalTopics": 60,
+          "percent": 0,
+          "updatedAt": "2026-02-22T10:36:15.249Z"
+        }
+      }
+    },
+    "accountStatus": "active",
+    "password": "praveen",
+    "createdAt": "2026-02-22T10:35:12.151Z",
+    "practiceArena": {
+      "solvedChallengeIds": [],
+      "attempts": 0,
+      "lastAttemptAt": ""
+    },
+    "aiMentor": {
+      "lastReminderDate": "2026-02-23",
+      "message": "Praveen, complete C++ Programming: orientation and roadmap today to stay on track for Tech Professional role.",
+      "generatedAt": "2026-02-23T09:32:30.825Z"
+    }
+  }
+]

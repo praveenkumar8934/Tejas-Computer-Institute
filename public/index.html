@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tejas Computer Institute | Best Computer Training Center</title>
+    <meta name="description" content="Tejas Computer Institute - Leading computer training center offering courses in Programming, Data Science, Web Development, Tally, MS Office, and Digital Skills.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .home-page .hero {
+            background:
+                radial-gradient(circle at 10% 15%, rgba(73, 198, 255, 0.24), transparent 40%),
+                radial-gradient(circle at 90% 85%, rgba(17, 148, 255, 0.26), transparent 42%),
+                linear-gradient(125deg, rgba(3, 35, 70, 0.98), rgba(4, 72, 122, 0.92)),
+                url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1920') center/cover;
+        }
+
+        .home-page .hero .container {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .home-page .hero-content h1 {
+            font-family: 'Sora', 'Poppins', sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        #dynamicHeadline {
+            display: inline-block;
+            min-width: 14ch;
+            position: relative;
+        }
+
+        #dynamicHeadline::after {
+            content: '';
+            display: inline-block;
+            width: 2px;
+            height: 0.9em;
+            margin-left: 6px;
+            vertical-align: middle;
+            background: #b6ecff;
+            animation: blinkCursor 0.9s steps(1, end) infinite;
+        }
+
+        .home-page .hero-content p {
+            max-width: 640px;
+        }
+
+        .hero-chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+            margin-bottom: 28px;
+            animation: fadeInUp 0.8s ease 0.5s both;
+        }
+
+        .hero-chip {
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: #dff4ff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.12);
+            padding: 8px 14px;
+            border-radius: 999px;
+            backdrop-filter: blur(6px);
+        }
+
+        .hero-chip.active {
+            border-color: rgba(166, 241, 255, 0.85);
+            background: rgba(83, 214, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .hero-panel {
+            position: relative;
+            z-index: 1;
+            border-radius: 22px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 50px rgba(0, 18, 38, 0.35);
+            animation: fadeInRight 1s ease 0.8s both;
+        }
+
+        .hero-panel-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .hero-panel-head strong {
+            font-family: 'Sora', 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 0.01em;
+        }
+
+        .hero-panel-badge {
+            font-size: 0.75rem;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(48, 217, 255, 0.2);
+            border: 1px solid rgba(148, 236, 255, 0.35);
+        }
+
+        .hero-stats {
+            position: static;
+            transform: none;
+            right: auto;
+            top: auto;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+            background: transparent;
+            border: 0;
+            padding: 0;
+            animation: none;
+        }
+
+        .home-page .stat-item {
+            border-radius: 14px;
+            padding: 12px 8px;
+            margin-bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+        }
+
+        .home-page .stat-number {
+            font-size: 2rem;
+        }
+
+        .home-page .stat-label {
+            font-size: 0.82rem;
+            color: rgba(237, 247, 255, 0.82);
+        }
+
+        .hero-panel-card {
+            border-radius: 16px;
+            padding: 16px;
+            background: linear-gradient(140deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e9f8ff;
+        }
+
+        .hero-panel-card p {
+            color: rgba(235, 248, 255, 0.9);
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+        }
+
+        .hero-panel-card h4 {
+            color: #fff;
+            font-family: 'Sora', 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .hero-panel-card span {
+            font-size: 0.84rem;
+            opacity: 0.92;
+        }
+
+        .countdown-pill {
+            margin-top: 12px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 8px 10px;
+            border-radius: 10px;
+            background: rgba(8, 164, 255, 0.2);
+            border: 1px solid rgba(145, 225, 255, 0.35);
+            color: #dcf6ff;
+        }
+
+        .home-highlights {
+            margin-top: -46px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .home-highlights .container {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .website-assistant {
+            padding-top: 55px;
+            padding-bottom: 30px;
+        }
+
+        .assistant-shell {
+            background: linear-gradient(145deg, var(--white), var(--light-bg));
+            border: 1px solid var(--border-color);
+            border-radius: 22px;
+            box-shadow: var(--shadow);
+            padding: 24px;
+        }
+
+        .assistant-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .assistant-head h3 {
+            margin: 0;
+            color: var(--primary-color);
+            font-family: 'Sora', 'Poppins', sans-serif;
+            font-size: 1.4rem;
+        }
+
+        .assistant-badge {
+            border: 1px solid rgba(var(--primary-rgb), 0.3);
+            background: rgba(var(--primary-rgb), 0.1);
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 0.8rem;
+            color: var(--primary-dark);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .assistant-form {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .assistant-form input {
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            background: var(--white);
+            color: var(--dark-text);
+        }
+
+        .assistant-form button {
+            border: 0;
+            border-radius: 12px;
+            padding: 0 18px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .assistant-form button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .assistant-chips,
+        .assistant-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .assistant-chip,
+        .assistant-suggestion {
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            padding: 7px 12px;
+            font-size: 0.83rem;
+            color: var(--primary-dark);
+            background: var(--light-bg);
+            cursor: pointer;
+        }
+
+        .assistant-chip:hover,
+        .assistant-suggestion:hover {
+            border-color: var(--primary-color);
+            background: rgba(var(--primary-rgb), 0.12);
+        }
+
+        .assistant-answer {
+            margin-top: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px;
+            background: var(--white);
+            color: var(--dark-text);
+            min-height: 64px;
+        }
+
+        .assistant-status {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: var(--gray-text);
+            min-height: 18px;
+        }
+
+        .career-dna {
+            padding-top: 10px;
+        }
+
+        .career-dna-shell {
+            border: 1px solid var(--border-color);
+            border-radius: 22px;
+            background: linear-gradient(140deg, rgba(var(--primary-rgb), 0.08), var(--white) 35%, var(--light-bg));
+            box-shadow: var(--shadow);
+            padding: 24px;
+        }
+
+        .career-dna-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .career-dna-head h3 {
+            margin: 0;
+            color: var(--primary-color);
+            font-family: 'Sora', 'Poppins', sans-serif;
+        }
+
+        .career-dna-badge {
+            border: 1px solid rgba(var(--primary-rgb), 0.35);
+            background: rgba(var(--primary-rgb), 0.12);
+            color: var(--primary-dark);
+            border-radius: 999px;
+            padding: 5px 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .career-dna-form {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .career-dna-form select,
+        .career-dna-form input,
+        .career-dna-form button {
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 11px 12px;
+            font-family: inherit;
+            background: var(--white);
+            color: var(--dark-text);
+        }
+
+        .career-dna-form button {
+            border: 0;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--white);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        }
+
+        .career-dna-form button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .career-dna-status {
+            min-height: 18px;
+            margin-top: 8px;
+            color: var(--gray-text);
+            font-size: 0.84rem;
+        }
+
+        .career-dna-output {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 14px;
+            margin-top: 14px;
+        }
+
+        .career-dna-cta {
+            margin-top: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 0;
+            border-radius: 999px;
+            padding: 10px 16px;
+            font-weight: 700;
+            color: var(--white);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            cursor: pointer;
+        }
+
+        .career-dna-cta:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .dna-panel {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px;
+        }
+
+        .dna-title {
+            color: var(--primary-dark);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .dna-summary {
+            color: var(--dark-text);
+            margin-bottom: 10px;
+        }
+
+        .dna-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .dna-list li {
+            border: 1px solid var(--border-color);
+            background: var(--light-bg);
+            border-radius: 10px;
+            padding: 9px 10px;
+            font-size: 0.9rem;
+        }
+
+        .highlight-card {
+            border-radius: 18px;
+            background: #ffffff;
+            border: 1px solid #d8e7f7;
+            box-shadow: 0 12px 24px rgba(0, 68, 130, 0.1);
+            padding: 20px;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 35px rgba(0, 68, 130, 0.16);
+        }
+
+        .highlight-card i {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .highlight-card h4 {
+            margin-bottom: 4px;
+            font-size: 1.02rem;
+        }
+
+        .highlight-card p {
+            font-size: 0.9rem;
+            line-height: 1.45;
+        }
+
+        .home-page .feature-card,
+        .home-page .course-card,
+        .home-page .testimonial-card,
+        .home-page .why-card {
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            will-change: transform;
+        }
+
+        .home-page .feature-card:hover,
+        .home-page .course-card:hover,
+        .home-page .testimonial-card:hover,
+        .home-page .why-card:hover {
+            box-shadow: 0 18px 35px rgba(0, 68, 130, 0.2);
+        }
+
+        .journey {
+            background: linear-gradient(180deg, #f6fbff, #eef7ff);
+            border-top: 1px solid #dfecfa;
+            border-bottom: 1px solid #dfecfa;
+        }
+
+        .journey-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .journey-card {
+            border-radius: 18px;
+            background: #fff;
+            border: 1px solid #d8e8f9;
+            box-shadow: 0 12px 24px rgba(0, 68, 130, 0.1);
+            padding: 20px;
+        }
+
+        .journey-card h4 {
+            font-size: 1.04rem;
+            margin-bottom: 8px;
+        }
+
+        .journey-card p {
+            font-size: 0.92rem;
+            margin-bottom: 14px;
+        }
+
+        .journey-progress {
+            height: 10px;
+            width: 100%;
+            border-radius: 999px;
+            overflow: hidden;
+            background: #dbeaf9;
+        }
+
+        .journey-progress-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #0f7acc, #2bc2ff);
+            transition: width 1.1s cubic-bezier(0.2, 0.9, 0.25, 1);
+        }
+
+        .journey-progress-label {
+            margin-top: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #2d5f89;
+        }
+
+        .course-finder {
+            margin: 0 auto 26px;
+            max-width: 760px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: #fff;
+            border: 1px solid #d8e8f8;
+            border-radius: 14px;
+            padding: 10px;
+            box-shadow: 0 10px 24px rgba(0, 68, 130, 0.1);
+        }
+
+        .course-finder i {
+            color: #3a78a8;
+            margin-left: 4px;
+        }
+
+        .course-finder input {
+            flex: 1;
+            border: 0;
+            outline: 0;
+            font-size: 0.98rem;
+            font-family: inherit;
+            color: var(--dark-text);
+        }
+
+        .course-finder button {
+            border: 0;
+            border-radius: 10px;
+            background: #eaf4ff;
+            color: #175e96;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .course-finder-result {
+            text-align: center;
+            color: #516a80;
+            margin-bottom: 18px;
+            font-size: 0.9rem;
+            min-height: 20px;
+        }
+
+        .faq {
+            background: linear-gradient(180deg, #ffffff, #f7fbff);
+        }
+
+        .faq-wrap {
+            max-width: 860px;
+            margin: 0 auto;
+            display: grid;
+            gap: 12px;
+        }
+
+        .faq-item {
+            border-radius: 14px;
+            background: #fff;
+            border: 1px solid #d8e8f8;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 68, 130, 0.08);
+        }
+
+        .faq-question {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            padding: 16px 18px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #17324e;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .faq-question i {
+            transition: transform 0.25s ease;
+            color: #2578b6;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.28s ease;
+            padding: 0 18px;
+        }
+
+        .faq-answer p {
+            color: #516a80;
+            margin-bottom: 16px;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        @keyframes blinkCursor {
+            0%, 50% { opacity: 1; }
+            50.01%, 100% { opacity: 0; }
+        }
+
+        @media (max-width: 1024px) {
+            .home-page .hero .container {
+                grid-template-columns: 1fr;
+                gap: 22px;
+            }
+
+            .hero-panel {
+                max-width: 680px;
+            }
+
+            .home-highlights {
+                margin-top: 24px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #dynamicHeadline {
+                min-width: 0;
+            }
+
+            .home-page .hero {
+                padding-top: 96px;
+            }
+
+            .home-page .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .home-page .hero-content p {
+                font-size: 1.02rem;
+            }
+
+            .hero-chip-row {
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+
+            .hero-chip {
+                font-size: 0.78rem;
+                padding: 7px 11px;
+            }
+
+            .hero-panel {
+                padding: 20px 16px;
+                border-radius: 16px;
+            }
+
+            .hero-panel-head {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .hero-panel-badge {
+                font-size: 0.7rem;
+            }
+
+            .hero-buttons {
+                width: 100%;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .home-page .hero-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .home-highlights .container {
+                grid-template-columns: 1fr;
+            }
+
+            .assistant-form {
+                grid-template-columns: 1fr;
+            }
+
+            .career-dna-form {
+                grid-template-columns: 1fr;
+            }
+
+            .career-dna-output {
+                grid-template-columns: 1fr;
+            }
+
+            .journey-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .course-finder {
+                padding: 8px;
+            }
+
+            .course-finder input {
+                font-size: 0.92rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .home-page .hero {
+                padding-top: 88px;
+            }
+
+            .home-page .hero h1 {
+                font-size: 1.95rem;
+                line-height: 1.25;
+            }
+
+            .hero-badge {
+                font-size: 0.78rem;
+                padding: 7px 12px;
+            }
+
+            .countdown-pill {
+                font-size: 0.76rem;
+                line-height: 1.35;
+            }
+
+            .highlight-card,
+            .journey-card {
+                padding: 16px;
+            }
+
+            .course-finder {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .course-finder button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="home-page">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">TC</div>
+                    <div class="logo-text">Tejas <span>Computer</span></div>
+                </a>
+                
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link active">Home</a></li>
+                    <li><a href="about.html" class="nav-link">About Us</a></li>
+                    <li><a href="courses.html" class="nav-link">Courses</a></li>
+                    <li><a href="testimonials.html" class="nav-link">Testimonials</a></li>
+                    <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                    <li><a href="faculty.html" class="nav-link">Faculty</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="login.html" class="nav-link btn-login">Login</a></li>
+                    <li><a href="register.html" class="nav-link btn-register">Register</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="hero-badge">
+                    <i class="fas fa-graduation-cap"></i> Welcome to Tejas Computer Institute
+                </span>
+                <h1>Master Computer Skills <br><span id="dynamicHeadline">Build Your Future</span></h1>
+                <p>Join thousands of students who have transformed their careers through our expert-led computer training programs. From programming to digital skills, we help you achieve your goals.</p>
+                <div class="hero-chip-row">
+                    <span class="hero-chip">Live Practical Sessions</span>
+                    <span class="hero-chip">Interview Preparation</span>
+                    <span class="hero-chip">Hindi + English Guidance</span>
+                </div>
+                <div class="hero-buttons">
+                    <a href="courses.html" class="btn btn-primary">Explore Courses</a>
+                    <a href="contact.html" class="btn btn-secondary">Book Free Counseling</a>
+                </div>
+            </div>
+            
+            <div class="hero-panel fade-in interactive-card">
+                <div class="hero-panel-head">
+                    <strong>Student Growth Snapshot</strong>
+                    <span class="hero-panel-badge">2026 Batches</span>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="500">0</div>
+                        <div class="stat-label">Students Trained</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="30">0</div>
+                        <div class="stat-label">Courses Offered</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="5">0</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                </div>
+
+                <div class="hero-panel-card">
+                    <p>Upcoming Batch</p>
+                    <h4>Full-Stack Web Development</h4>
+                    <span><i class="fas fa-calendar-alt"></i> Starts Monday | Limited Seats</span>
+                    <div class="countdown-pill" id="nextBatchCountdown">Calculating next batch timer...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-highlights">
+        <div class="container">
+            <div class="highlight-card fade-in interactive-card">
+                <i class="fas fa-briefcase"></i>
+                <div>
+                    <h4>Career-Led Curriculum</h4>
+                    <p>Course paths are mapped to real job roles and project outcomes.</p>
+                </div>
+            </div>
+            <div class="highlight-card fade-in interactive-card">
+                <i class="fas fa-people-group"></i>
+                <div>
+                    <h4>Mentor + Peer Community</h4>
+                    <p>Collaborative learning with doubt sessions and guided practice.</p>
+                </div>
+            </div>
+            <div class="highlight-card fade-in interactive-card">
+                <i class="fas fa-trophy"></i>
+                <div>
+                    <h4>Portfolio & Certification</h4>
+                    <p>Graduate with verifiable projects and certificates that add value.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="website-assistant">
+        <div class="container">
+            <div class="assistant-shell fade-in interactive-card">
+                <div class="assistant-head">
+                    <h3><i class="fas fa-robot"></i> Ask Gemini About Tejas</h3>
+                    <span class="assistant-badge">AI Website Guide</span>
+                </div>
+                <p>Ask anything about courses, career tracks, durations, and how this institute can help you.</p>
+
+                <div class="assistant-chips">
+                    <button type="button" class="assistant-chip" data-assistant-prompt="What courses are best for beginners?">Beginner Courses</button>
+                    <button type="button" class="assistant-chip" data-assistant-prompt="How does Tejas help with jobs and career preparation?">Career Support</button>
+                    <button type="button" class="assistant-chip" data-assistant-prompt="Tell me all about Tejas Computer Institute in short.">About Institute</button>
+                </div>
+
+                <form id="websiteAssistantForm" class="assistant-form">
+                    <input id="websiteAssistantInput" type="text" maxlength="500" placeholder="Ask about courses, batches, fees, support, or roadmap...">
+                    <button type="submit"><i class="fas fa-paper-plane"></i> Ask</button>
+                </form>
+
+                <div id="websiteAssistantStatus" class="assistant-status"></div>
+                <div id="websiteAssistantAnswer" class="assistant-answer">I am your website assistant. Ask me anything about Tejas Computer Institute.</div>
+                <div id="websiteAssistantSuggestions" class="assistant-suggestions"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section journey">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Learning Journey Roadmap</h2>
+                <p>Clear progression from foundation to career readiness with trackable milestones</p>
+            </div>
+            <div class="journey-grid">
+                <div class="journey-card fade-in interactive-card">
+                    <h4>Foundation Skills</h4>
+                    <p>Build computer basics, typing confidence, and digital productivity habits.</p>
+                    <div class="journey-progress" data-progress="88">
+                        <div class="journey-progress-fill"></div>
+                    </div>
+                    <div class="journey-progress-label">Average completion: 88%</div>
+                </div>
+                <div class="journey-card fade-in interactive-card">
+                    <h4>Project Implementation</h4>
+                    <p>Apply concepts with mini projects in Python, web, and office automation.</p>
+                    <div class="journey-progress" data-progress="74">
+                        <div class="journey-progress-fill"></div>
+                    </div>
+                    <div class="journey-progress-label">Average completion: 74%</div>
+                </div>
+                <div class="journey-card fade-in interactive-card">
+                    <h4>Career Preparation</h4>
+                    <p>Portfolio building, interview mentoring, and role-aligned final guidance.</p>
+                    <div class="journey-progress" data-progress="67">
+                        <div class="journey-progress-fill"></div>
+                    </div>
+                    <div class="journey-progress-label">Average completion: 67%</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section career-dna">
+        <div class="container">
+            <div class="career-dna-shell fade-in interactive-card">
+                <div class="career-dna-head">
+                    <h3><i class="fas fa-dna"></i> Career DNA Matcher</h3>
+                    <span class="career-dna-badge">Unique Blueprint Engine</span>
+                </div>
+                <p>Get your personal learning blueprint in seconds based on target track, current level, and weekly study time.</p>
+
+                <form id="careerDnaForm" class="career-dna-form">
+                    <select id="dnaTrack" required>
+                        <option value="">Choose your target track</option>
+                    </select>
+                    <select id="dnaLevel" required>
+                        <option value="beginner">Current level: Beginner</option>
+                        <option value="intermediate">Current level: Intermediate</option>
+                        <option value="advanced">Current level: Advanced</option>
+                    </select>
+                    <input id="dnaHours" type="number" min="2" max="30" value="8" required placeholder="Weekly study hours">
+                    <select id="dnaGoal" required>
+                        <option value="job">Goal: Get Job Ready</option>
+                        <option value="freelance">Goal: Freelancing</option>
+                        <option value="promotion">Goal: Promotion / Upskill</option>
+                        <option value="startup">Goal: Build Startup Product</option>
+                    </select>
+                    <button type="submit" id="careerDnaBtn">Generate My Blueprint</button>
+                </form>
+
+                <div id="careerDnaStatus" class="career-dna-status"></div>
+                <div id="careerDnaOutput" class="career-dna-output"></div>
+                <button type="button" id="careerDnaEnrollBtn" class="career-dna-cta" disabled>
+                    <i class="fas fa-rocket"></i> Enroll Recommended Path
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section features">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Why Choose Tejas?</h2>
+                <p>We provide quality education with practical training and industry-relevant skills</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card fade-in interactive-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h4>Hands-on Training</h4>
+                    <p>Practical learning with real-world projects and assignments</p>
+                </div>
+                
+                <div class="feature-card fade-in interactive-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h4>Expert Faculty</h4>
+                    <p>Learn from experienced industry professionals</p>
+                </div>
+                
+                <div class="feature-card fade-in interactive-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h4>Certification</h4>
+                    <p>Get recognized certificates upon course completion</p>
+                </div>
+                
+                <div class="feature-card fade-in interactive-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h4>Career Support</h4>
+                    <p>Job placement assistance and career guidance</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Courses Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Our Top Courses</h2>
+                <p>Explore our most popular computer training programs</p>
+            </div>
+
+            <div class="course-finder fade-in">
+                <i class="fas fa-search"></i>
+                <input type="text" id="courseSearchInput" placeholder="Search by course name, level, duration...">
+                <button id="courseSearchClear" type="button">Clear</button>
+            </div>
+            <div id="courseSearchResult" class="course-finder-result">Showing available courses</div>
+            
+            <div class="courses-grid" id="coursesGrid">
+                <!-- Courses will be loaded dynamically via JavaScript -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="courses.html" class="btn btn-primary">View All Courses</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section Preview -->
+    <section class="section about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image fade-in">
+                    <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600" alt="Students learning">
+                </div>
+                
+                <div class="about-content fade-in">
+                    <h2>Empowering Students Since 2019</h2>
+                    <p>Tejas Computer Institute has been dedicated to providing quality computer education to students from all backgrounds. We believe in making technology accessible to everyone.</p>
+                    
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Expert Instructors</span>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Modern Labs</span>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Flexible Timing</span>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Affordable Fees</span>
+                        </div>
+                    </div>
+                    
+                    <a href="about.html" class="btn btn-primary" style="margin-top: 30px;">Learn More About Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-choose">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Why Choose Tejas?</h2>
+                <p>We are committed to your success in the digital world</p>
+            </div>
+            
+            <div class="why-grid">
+                <div class="why-card fade-in interactive-card">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h4>Quality Education</h4>
+                    <p>Structured curriculum with industry-relevant content</p>
+                </div>
+                
+                <div class="why-card fade-in interactive-card">
+                    <i class="fas fa-tools"></i>
+                    <h4>Practical Skills</h4>
+                    <p>Hands-on training with real-world applications</p>
+                </div>
+                
+                <div class="why-card fade-in interactive-card">
+                    <i class="fas fa-clock"></i>
+                    <h4>Flexible Schedule</h4>
+                    <p>Weekday and weekend batches available</p>
+                </div>
+                
+                <div class="why-card fade-in interactive-card">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    <h4>Affordable Fees</h4>
+                    <p>Quality education at competitive prices</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Preview -->
+    <section class="section testimonials">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Student Success Stories</h2>
+                <p>Hear from our students about their learning experience</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in interactive-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="Student" class="testimonial-image">
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Tejas Computer Institute changed my life. I learned Python and got a job as a software developer within 3 months of completing the course."</p>
+                    <div class="testimonial-author">Rahul Kumar</div>
+                    <div class="testimonial-role">Software Developer</div>
+                </div>
+                
+                <div class="testimonial-card fade-in interactive-card">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="Student" class="testimonial-image">
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Excellent web development course! The instructors are very supportive and the practical projects helped me build a strong portfolio."</p>
+                    <div class="testimonial-author">Priya Singh</div>
+                    <div class="testimonial-role">Web Designer</div>
+                </div>
+                
+                <div class="testimonial-card fade-in interactive-card">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" alt="Student" class="testimonial-image">
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="testimonial-text">"I learned Tally and MS Office here. Now I manage accounts for multiple businesses. Highly recommended for anyone looking for practical skills."</p>
+                    <div class="testimonial-author">Amit Patel</div>
+                    <div class="testimonial-role">Accountant</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="testimonials.html" class="btn btn-primary">View All Testimonials</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Preview -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Our Gallery</h2>
+                <p>Glimpses of our campus, events, and student activities</p>
+            </div>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item fade-in interactive-card">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400" alt="Classroom">
+                    <div class="gallery-overlay">
+                        <span>Smart Classrooms</span>
+                    </div>
+                </div>
+                
+                <div class="gallery-item fade-in interactive-card">
+                    <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=400" alt="Training">
+                    <div class="gallery-overlay">
+                        <span>Practical Training</span>
+                    </div>
+                </div>
+                
+                <div class="gallery-item fade-in interactive-card">
+                    <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=400" alt="Certificate">
+                    <div class="gallery-overlay">
+                        <span>Certificate Distribution</span>
+                    </div>
+                </div>
+                
+                <div class="gallery-item fade-in interactive-card">
+                    <img src="https://images.unsplash.com/photo-1544531696-7613766a0551?w=400" alt="Event">
+                    <div class="gallery-overlay">
+                        <span>Tech Events</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="gallery.html" class="btn btn-primary">View Full Gallery</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section faq">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Frequently Asked Questions</h2>
+                <p>Quick answers about courses, batches, and certification</p>
+            </div>
+
+            <div class="faq-wrap">
+                <div class="faq-item fade-in">
+                    <button type="button" class="faq-question">
+                        <span>Do I need prior coding experience to join?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>No. We have beginner-friendly tracks that start from core computer concepts before moving to advanced projects.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item fade-in">
+                    <button type="button" class="faq-question">
+                        <span>Do you provide certificates after completion?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, every completed course includes an institute certificate and project guidance that you can showcase in interviews.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item fade-in">
+                    <button type="button" class="faq-question">
+                        <span>Are weekend or evening batches available?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes. We run flexible weekday, evening, and weekend batches to fit student and working professional schedules.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section" style="background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));">
+        <div class="container">
+            <div style="text-align: center; color: var(--white);">
+                <h2 style="color: var(--white); margin-bottom: 20px;">Ready to Start Your Journey?</h2>
+                <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.2rem; margin-bottom: 30px;">Join Tejas Computer Institute today and transform your career with industry-relevant skills.</p>
+                <a href="contact.html" class="btn btn-secondary">Enroll Now <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">TC</div>
+                        <div class="logo-text" style="color: var(--white);">Tejas <span>Computer</span></div>
+                    </a>
+                    <p>Tejas Computer Institute is a leading computer training center dedicated to providing quality education and practical skills to students.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="courses.html">Courses</a></li>
+                        <li><a href="testimonials.html">Testimonials</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Courses</h4>
+                    <ul>
+                        <li><a href="courses.html">Python Programming</a></li>
+                        <li><a href="courses.html">Web Development</a></li>
+                        <li><a href="courses.html">Data Science</a></li>
+                        <li><a href="courses.html">Tally & GST</a></li>
+                        <li><a href="courses.html">MS Office</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Dhanaha urf Malludih PO, Karmaini Preamwaliya, Kasia, Kushinagar</li>
+                        <li><i class="fas fa-phone"></i> +91 8934039262</li>
+                        <li><i class="fas fa-envelope"></i> pk5952424@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Tejas Computer Institute. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dynamicHeadline = document.getElementById('dynamicHeadline');
+            if (dynamicHeadline) {
+                const messages = ['Build Your Future', 'Launch Your Career', 'Create Real Projects'];
+                let headlineIndex = 0;
+                setInterval(() => {
+                    headlineIndex = (headlineIndex + 1) % messages.length;
+                    dynamicHeadline.textContent = messages[headlineIndex];
+                }, 2200);
+            }
+
+            const chips = document.querySelectorAll('.hero-chip');
+            if (chips.length > 0) {
+                let activeIndex = 0;
+                chips[activeIndex].classList.add('active');
+                setInterval(() => {
+                    chips[activeIndex].classList.remove('active');
+                    activeIndex = (activeIndex + 1) % chips.length;
+                    chips[activeIndex].classList.add('active');
+                }, 1700);
+            }
+
+            const countdownEl = document.getElementById('nextBatchCountdown');
+            if (countdownEl) {
+                const updateCountdown = () => {
+                    const now = new Date();
+                    const target = new Date(now);
+                    const day = now.getDay();
+                    const daysUntilMonday = (8 - day) % 7 || 7;
+                    target.setDate(now.getDate() + daysUntilMonday);
+                    target.setHours(9, 0, 0, 0);
+
+                    const diffMs = target - now;
+                    const totalMinutes = Math.max(0, Math.floor(diffMs / 60000));
+                    const days = Math.floor(totalMinutes / (24 * 60));
+                    const hours = Math.floor((totalMinutes % (24 * 60)) / 60);
+                    const mins = totalMinutes % 60;
+                    countdownEl.textContent = `Next batch starts in ${days}d ${hours}h ${mins}m`;
+                };
+                updateCountdown();
+                setInterval(updateCountdown, 60000);
+            }
+
+            const progressBars = document.querySelectorAll('.journey-progress');
+            if (progressBars.length > 0) {
+                const progressObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach((entry) => {
+                        if (!entry.isIntersecting) return;
+                        const track = entry.target;
+                        const fill = track.querySelector('.journey-progress-fill');
+                        const target = track.getAttribute('data-progress') || '0';
+                        if (fill) fill.style.width = `${target}%`;
+                        observer.unobserve(track);
+                    });
+                }, { threshold: 0.4 });
+
+                progressBars.forEach((bar) => progressObserver.observe(bar));
+            }
+
+            const canHover = window.matchMedia('(hover: hover)').matches;
+            if (!canHover) return;
+
+            const heroPanel = document.querySelector('.hero-panel');
+            if (heroPanel) {
+                const damp = 16;
+                heroPanel.addEventListener('mousemove', (e) => {
+                    const rect = heroPanel.getBoundingClientRect();
+                    const x = (e.clientX - rect.left - rect.width / 2) / damp;
+                    const y = (e.clientY - rect.top - rect.height / 2) / damp;
+                    heroPanel.style.transform = `rotateX(${-y}deg) rotateY(${x}deg)`;
+                });
+                heroPanel.addEventListener('mouseleave', () => {
+                    heroPanel.style.transform = 'rotateX(0deg) rotateY(0deg)';
+                });
+            }
+
+            const cards = document.querySelectorAll('.interactive-card');
+            cards.forEach((card) => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const rotateY = ((e.clientX - rect.left) / rect.width - 0.5) * 6;
+                    const rotateX = ((e.clientY - rect.top) / rect.height - 0.5) * -6;
+                    card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

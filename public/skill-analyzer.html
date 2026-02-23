@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Skill Analyzer | Tejas Computer Institute</title>
+    <meta name="description" content="Take a skill test, detect your level, and get a personalized roadmap.">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .analyzer-container {
+            max-width: 1100px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+
+        .analyzer-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 20px;
+        }
+
+        .analyzer-card {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .analyzer-card-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            padding: 16px 20px;
+        }
+
+        .analyzer-card-header h3 {
+            margin: 0;
+            color: var(--white);
+            font-size: 1.08rem;
+        }
+
+        .analyzer-card-body {
+            padding: 18px 20px;
+        }
+
+        .track-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .track-row select {
+            flex: 1;
+            min-width: 210px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-family: inherit;
+        }
+
+        .question-list {
+            display: grid;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .question-item {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            background: var(--light-bg);
+        }
+
+        .question-item h4 {
+            margin: 0 0 10px;
+            font-size: 0.96rem;
+        }
+
+        .question-options {
+            display: grid;
+            gap: 8px;
+        }
+
+        .question-options label {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .result-level {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: #ebf4ff;
+            border: 1px solid #9cc6ff;
+            color: #0a4b8f;
+        }
+
+        .score-track {
+            height: 10px;
+            border-radius: 999px;
+            background: var(--light-gray);
+            overflow: hidden;
+            margin-bottom: 14px;
+        }
+
+        .score-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #0ea5e9, #10b981);
+        }
+
+        .chip-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .chip {
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 0.82rem;
+            background: #f8fbff;
+        }
+
+        .roadmap-stage {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .roadmap-stage.current {
+            border-color: var(--primary-color);
+            background: #eef7ff;
+        }
+
+        .roadmap-stage.completed {
+            border-color: #9fd8ad;
+            background: #edf9f0;
+        }
+
+        .roadmap-stage h4 {
+            margin: 0 0 8px;
+            font-size: 0.95rem;
+        }
+
+        .roadmap-stage ul {
+            margin: 0;
+            padding-left: 18px;
+            font-size: 0.88rem;
+            color: var(--gray-text);
+        }
+
+        .small-note {
+            color: var(--gray-text);
+            font-size: 0.86rem;
+        }
+
+        @media (max-width: 960px) {
+            .analyzer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">TC</div>
+                    <div class="logo-text">Tejas <span>Computer</span></div>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="courses.html" class="nav-link">Courses</a></li>
+                    <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                    <li><a href="skill-analyzer.html" class="nav-link active">Skill Analyzer</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="analyzer-container">
+        <div class="section-title" style="text-align:left; margin-bottom: 20px;">
+            <h2>AI Skill Analyzer</h2>
+            <p>Take a quick test, detect your level, and get a personalized roadmap from Beginner to Job Ready.</p>
+        </div>
+
+        <div class="analyzer-grid">
+            <section class="analyzer-card">
+                <div class="analyzer-card-header">
+                    <h3><i class="fas fa-clipboard-check"></i> Skill Test</h3>
+                </div>
+                <div class="analyzer-card-body">
+                    <div class="track-row">
+                        <select id="trackSelect">
+                            <option value="">Select track</option>
+                        </select>
+                        <button id="loadTestBtn" class="btn btn-primary"><i class="fas fa-play"></i> Start Test</button>
+                    </div>
+                    <p id="trackInfo" class="small-note">Choose a track to begin.</p>
+                    <div id="questionList" class="question-list"></div>
+                    <button id="submitTestBtn" class="btn btn-primary" style="margin-top: 12px; display: none;">
+                        <i class="fas fa-chart-line"></i> Analyze My Skills
+                    </button>
+                </div>
+            </section>
+
+            <section class="analyzer-card">
+                <div class="analyzer-card-header">
+                    <h3><i class="fas fa-route"></i> Personalized Roadmap</h3>
+                </div>
+                <div class="analyzer-card-body">
+                    <div id="resultRoot">
+                        <p class="small-note">Your roadmap will appear here after completing the test.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        const trackSelect = document.getElementById('trackSelect');
+        const loadTestBtn = document.getElementById('loadTestBtn');
+        const submitTestBtn = document.getElementById('submitTestBtn');
+        const questionList = document.getElementById('questionList');
+        const resultRoot = document.getElementById('resultRoot');
+        const trackInfo = document.getElementById('trackInfo');
+
+        let currentTrack = null;
+        let currentQuestions = [];
+
+        function getLoggedUserEmail() {
+            const raw = localStorage.getItem('user');
+            if (!raw) return '';
+            try {
+                const user = JSON.parse(raw);
+                return String(user.email || '').trim().toLowerCase();
+            } catch (error) {
+                return '';
+            }
+        }
+
+        async function loadTracks() {
+            try {
+                const response = await fetch('/api/skill-analyzer/tracks');
+                const data = await response.json();
+                if (!response.ok || !data.success || !Array.isArray(data.tracks)) return;
+                trackSelect.innerHTML = '<option value="">Select track</option>' + data.tracks.map(track => (
+                    `<option value="${track.id}">${track.title}</option>`
+                )).join('');
+            } catch (error) {
+                trackInfo.textContent = 'Failed to load tracks.';
+            }
+        }
+
+        function renderQuestions(questions) {
+            questionList.innerHTML = questions.map((question, qIdx) => `
+                <div class="question-item">
+                    <h4>Q${qIdx + 1}. ${question.prompt}</h4>
+                    <div class="question-options">
+                        ${question.options.map((option, oIdx) => `
+                            <label>
+                                <input type="radio" name="q_${qIdx}" value="${oIdx}">
+                                <span>${option}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+            submitTestBtn.style.display = questions.length ? 'inline-flex' : 'none';
+        }
+
+        function getAnswers() {
+            const answers = [];
+            for (let i = 0; i < currentQuestions.length; i += 1) {
+                const checked = document.querySelector(`input[name="q_${i}"]:checked`);
+                if (!checked) return null;
+                answers.push(Number(checked.value));
+            }
+            return answers;
+        }
+
+        function renderResult(payload) {
+            const result = payload.result || {};
+            const roadmap = Array.isArray(result.roadmap) ? result.roadmap : [];
+            const weakAreas = Array.isArray(result.weakAreas) ? result.weakAreas : [];
+            const recommendations = Array.isArray(result.recommendations) ? result.recommendations : [];
+
+            resultRoot.innerHTML = `
+                <div class="result-level"><i class="fas fa-sparkles"></i> ${result.level || 'Unknown Level'}</div>
+                <div style="font-weight: 600; margin-bottom: 6px;">Score: ${result.scorePercent || 0}%</div>
+                <div class="score-track"><div class="score-fill" style="width: ${result.scorePercent || 0}%;"></div></div>
+                <div style="font-weight: 600; margin-bottom: 6px;">Weak Areas</div>
+                <div class="chip-list">${weakAreas.length ? weakAreas.map(area => `<span class="chip">${area}</span>`).join('') : '<span class="chip">No critical weak area detected</span>'}</div>
+                <div style="font-weight: 600; margin: 12px 0 6px;">Roadmap</div>
+                ${roadmap.map(stage => `
+                    <div class="roadmap-stage ${stage.status || ''}">
+                        <h4>${stage.stage} (${stage.duration || ''})</h4>
+                        <ul>
+                            ${(stage.topics || []).map(topic => `<li>${topic}</li>`).join('')}
+                        </ul>
+                    </div>
+                `).join('')}
+                <div style="font-weight: 600; margin: 12px 0 6px;">Personalized Next Steps</div>
+                <ul class="small-note" style="padding-left: 18px; margin: 0;">
+                    ${recommendations.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            `;
+        }
+
+        loadTestBtn.addEventListener('click', async () => {
+            const trackId = trackSelect.value;
+            if (!trackId) {
+                alert('Select a track first.');
+                return;
+            }
+
+            loadTestBtn.disabled = true;
+            loadTestBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            try {
+                const response = await fetch(`/api/skill-analyzer/test?track=${encodeURIComponent(trackId)}`);
+                const data = await response.json();
+                if (!response.ok || !data.success) {
+                    alert(data.message || 'Failed to load test.');
+                    return;
+                }
+
+                currentTrack = data.track;
+                currentQuestions = Array.isArray(data.questions) ? data.questions : [];
+                trackInfo.textContent = currentTrack && currentTrack.description ? currentTrack.description : 'Track loaded.';
+                renderQuestions(currentQuestions);
+            } catch (error) {
+                alert('Network error while loading test.');
+            } finally {
+                loadTestBtn.disabled = false;
+                loadTestBtn.innerHTML = '<i class="fas fa-play"></i> Start Test';
+            }
+        });
+
+        submitTestBtn.addEventListener('click', async () => {
+            if (!currentTrack || !currentQuestions.length) return;
+            const answers = getAnswers();
+            if (!answers) {
+                alert('Please answer all questions before submitting.');
+                return;
+            }
+
+            submitTestBtn.disabled = true;
+            submitTestBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+            try {
+                const response = await fetch('/api/skill-analyzer/evaluate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: getLoggedUserEmail(),
+                        track: currentTrack.id,
+                        answers
+                    })
+                });
+                const data = await response.json();
+                if (!response.ok || !data.success) {
+                    alert(data.message || 'Skill analysis failed.');
+                    return;
+                }
+                renderResult(data);
+            } catch (error) {
+                alert('Network error while analyzing your skills.');
+            } finally {
+                submitTestBtn.disabled = false;
+                submitTestBtn.innerHTML = '<i class="fas fa-chart-line"></i> Analyze My Skills';
+            }
+        });
+
+        loadTracks();
+    </script>
+</body>
+</html>

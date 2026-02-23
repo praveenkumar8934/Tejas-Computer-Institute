@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment | Tejas Computer Institute</title>
+    <meta name="description" content="Secure payment and enrollment checkout for Tejas Computer Institute courses.">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .payment-shell {
+            max-width: 1020px;
+            margin: 110px auto 50px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 22px;
+        }
+
+        .payment-card {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .payment-head {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            padding: 18px 22px;
+        }
+
+        .payment-head h2 {
+            color: var(--white);
+            margin: 0;
+            font-size: 1.25rem;
+        }
+
+        .payment-body {
+            padding: 22px;
+        }
+
+        .payment-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .payment-group {
+            margin-bottom: 12px;
+        }
+
+        .payment-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .payment-group input,
+        .payment-group select {
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 11px 12px;
+            font-family: inherit;
+        }
+
+        .course-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .course-line:last-child {
+            border-bottom: 0;
+        }
+
+        .price-final {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+
+        .payment-status {
+            margin-top: 14px;
+            color: var(--gray-text);
+            font-size: 0.92rem;
+        }
+
+        .method-hint {
+            margin-top: 8px;
+            font-size: 0.84rem;
+            color: var(--gray-text);
+            background: #f7faff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 10px;
+        }
+
+        @media (max-width: 900px) {
+            .payment-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">TC</div>
+                    <div class="logo-text">Tejas <span>Computer</span></div>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="courses.html" class="nav-link">Courses</a></li>
+                    <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="payment-shell" id="paymentRoot">
+        <section class="payment-card">
+            <div class="payment-head">
+                <h2><i class="fas fa-lock"></i> Secure Payment</h2>
+            </div>
+            <div class="payment-body">
+                <div class="payment-group">
+                    <label for="payStudentName">Student Name</label>
+                    <input id="payStudentName" placeholder="Enter full name">
+                </div>
+                <div class="payment-group">
+                    <label for="payStudentEmail">Email</label>
+                    <input id="payStudentEmail" type="email" placeholder="Enter email">
+                </div>
+                <div class="payment-row">
+                    <div class="payment-group">
+                        <label for="payMethod">Payment Method</label>
+                        <select id="payMethod">
+                            <option value="upi">UPI</option>
+                            <option value="card">Card</option>
+                            <option value="netbanking">Net Banking</option>
+                            <option value="wallet">Wallet</option>
+                            <option value="cash">Pay at Institute</option>
+                        </select>
+                        <div id="payMethodHint" class="method-hint">Use your UPI app and enter the transaction reference after payment.</div>
+                    </div>
+                    <div class="payment-group">
+                        <label id="payTxnLabel" for="payTxnRef">Transaction Reference</label>
+                        <input id="payTxnRef" placeholder="UPI Ref / Card Txn">
+                    </div>
+                </div>
+                <button id="payNowBtn" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-credit-card"></i> Pay & Enroll
+                </button>
+                <div id="paymentStatus" class="payment-status">Complete payment details and continue enrollment.</div>
+            </div>
+        </section>
+
+        <aside class="payment-card">
+            <div class="payment-head">
+                <h2><i class="fas fa-file-invoice"></i> Order Summary</h2>
+            </div>
+            <div class="payment-body">
+                <div class="course-line">
+                    <span>Course</span>
+                    <strong id="summaryCourseTitle">Loading...</strong>
+                </div>
+                <div class="course-line">
+                    <span>Duration</span>
+                    <strong id="summaryCourseDuration">-</strong>
+                </div>
+                <div class="course-line">
+                    <span>Level</span>
+                    <strong id="summaryCourseLevel">-</strong>
+                </div>
+                <div class="course-line">
+                    <span>Total Amount</span>
+                    <strong class="price-final" id="summaryCoursePrice">-</strong>
+                </div>
+                <a id="backToCourseLink" href="courses.html" class="btn btn-secondary" style="width: 100%; margin-top: 14px;">
+                    <i class="fas fa-arrow-left"></i> Back to Course
+                </a>
+            </div>
+        </aside>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        function getCourseIdentifier() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('course');
+        }
+
+        async function loadCheckoutCourse() {
+            const identifier = getCourseIdentifier();
+            if (!identifier) return null;
+            try {
+                const response = await fetch(`/api/courses/${encodeURIComponent(identifier)}`);
+                if (!response.ok) return null;
+                return await response.json();
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function loadCurrentUser() {
+            const raw = localStorage.getItem('user');
+            if (!raw) return null;
+            try {
+                return JSON.parse(raw);
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function updateSummary(course) {
+            if (!course) return;
+            document.getElementById('summaryCourseTitle').textContent = course.title || '-';
+            document.getElementById('summaryCourseDuration').textContent = course.duration || '-';
+            document.getElementById('summaryCourseLevel').textContent = course.level || '-';
+            document.getElementById('summaryCoursePrice').textContent = course.priceLabel || (course.price ? `INR ${Math.round(course.price)}` : '-');
+            document.getElementById('backToCourseLink').href = `course-details.html?course=${encodeURIComponent(course.slug || course.id)}`;
+            document.title = `Payment - ${course.title} | Tejas Computer Institute`;
+        }
+
+        function getPaymentMethodMeta(method) {
+            switch (String(method || '').toLowerCase()) {
+                case 'card':
+                    return {
+                        label: 'Card Transaction ID',
+                        placeholder: 'Example: CARD-984512',
+                        hint: 'Pay by debit/credit card and enter the transaction ID from your bank message.',
+                        needsRef: true
+                    };
+                case 'netbanking':
+                    return {
+                        label: 'Bank Reference Number',
+                        placeholder: 'Example: NB-TRX-409921',
+                        hint: 'Complete payment through net banking and use the bank reference number.',
+                        needsRef: true
+                    };
+                case 'wallet':
+                    return {
+                        label: 'Wallet Transaction ID',
+                        placeholder: 'Example: WALLET-558821',
+                        hint: 'Pay via PhonePe/Paytm/Amazon Pay wallet and paste the wallet transaction ID.',
+                        needsRef: true
+                    };
+                case 'cash':
+                    return {
+                        label: 'Receipt / Booking ID (Optional)',
+                        placeholder: 'Optional for pay-at-institute',
+                        hint: 'Reserve your seat now and pay directly at the institute counter.',
+                        needsRef: false
+                    };
+                case 'upi':
+                default:
+                    return {
+                        label: 'UPI Transaction Reference',
+                        placeholder: 'Example: UPI-768243',
+                        hint: 'Use your UPI app and enter the transaction reference after payment.',
+                        needsRef: true
+                    };
+            }
+        }
+
+        function updatePaymentMethodUi() {
+            const method = document.getElementById('payMethod').value;
+            const meta = getPaymentMethodMeta(method);
+            document.getElementById('payTxnLabel').textContent = meta.label;
+            const txnInput = document.getElementById('payTxnRef');
+            txnInput.placeholder = meta.placeholder;
+            txnInput.required = Boolean(meta.needsRef);
+            document.getElementById('payMethodHint').textContent = meta.hint;
+        }
+
+        async function payAndEnroll(course) {
+            const status = document.getElementById('paymentStatus');
+            const user = loadCurrentUser();
+            const name = document.getElementById('payStudentName').value.trim();
+            const emailInput = document.getElementById('payStudentEmail').value.trim();
+            const txn = document.getElementById('payTxnRef').value.trim();
+            const method = document.getElementById('payMethod').value;
+            const methodMeta = getPaymentMethodMeta(method);
+            const payBtn = document.getElementById('payNowBtn');
+
+            if (!name || !emailInput) {
+                status.textContent = 'Please fill name and email.';
+                return;
+            }
+
+            if (methodMeta.needsRef && !txn) {
+                status.textContent = 'Please enter transaction reference for the selected payment method.';
+                return;
+            }
+
+            if (!user || !user.email) {
+                status.textContent = 'Please login/register before final enrollment.';
+                alert('Please login or register first to continue enrollment.');
+                return;
+            }
+
+            if (String(user.email).trim().toLowerCase() !== emailInput.toLowerCase()) {
+                status.textContent = 'Entered email does not match your logged in account.';
+                return;
+            }
+
+            payBtn.disabled = true;
+            payBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            status.textContent = `Verifying ${String(method || '').toUpperCase()} payment and activating your enrollment...`;
+
+            try {
+                const response = await fetch('/api/users/enroll', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: user.email,
+                        courseIdentifier: course.slug || String(course.id),
+                        courseTitle: course.title
+                    })
+                });
+                const data = await response.json();
+                if (!response.ok || !data.success) {
+                    throw new Error(data.message || 'Enrollment failed after payment.');
+                }
+
+                localStorage.setItem('user', JSON.stringify(data.user));
+                status.textContent = 'Payment successful. Enrollment confirmed. Redirecting to course...';
+                window.setTimeout(() => {
+                    window.location.href = `course-details.html?course=${encodeURIComponent(course.slug || String(course.id))}`;
+                }, 1200);
+            } catch (error) {
+                status.textContent = error.message || 'Could not complete enrollment.';
+                payBtn.disabled = false;
+                payBtn.innerHTML = '<i class="fas fa-credit-card"></i> Pay & Enroll';
+            }
+        }
+
+        async function initPayment() {
+            const course = await loadCheckoutCourse();
+            const root = document.getElementById('paymentRoot');
+            if (!course) {
+                root.innerHTML = `
+                    <section class="payment-card">
+                        <div class="payment-body" style="text-align:center;">
+                            <h3>Course not found</h3>
+                            <p style="margin-top: 8px;">Please select a valid course to continue payment.</p>
+                            <a href="courses.html" class="btn btn-primary" style="margin-top: 10px;">Back to Courses</a>
+                        </div>
+                    </section>
+                `;
+                return;
+            }
+
+            updateSummary(course);
+            const user = loadCurrentUser();
+            if (user) {
+                const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+                document.getElementById('payStudentName').value = fullName || '';
+                document.getElementById('payStudentEmail').value = user.email || '';
+            }
+
+            document.getElementById('payMethod').addEventListener('change', updatePaymentMethodUi);
+            updatePaymentMethodUi();
+            document.getElementById('payNowBtn').addEventListener('click', () => payAndEnroll(course));
+        }
+
+        document.addEventListener('DOMContentLoaded', initPayment);
+    </script>
+</body>
+</html>

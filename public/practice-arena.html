@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice Arena | Tejas Computer Institute</title>
+    <meta name="description" content="Solve coding challenges with difficulty levels and interview-style questions.">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .arena-container { max-width: 1300px; margin: 100px auto 50px; padding: 0 20px; }
+        .arena-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 20px; }
+        .arena-card { background: var(--white); border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; }
+        .arena-header { background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); color: var(--white); padding: 14px 18px; }
+        .arena-header h3 { margin: 0; color: var(--white); font-size: 1.02rem; }
+        .arena-body { padding: 16px 18px; }
+        .filter-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; margin-bottom: 10px; }
+        .filter-row select, .filter-row input { border: 1px solid var(--border-color); border-radius: 8px; padding: 9px 10px; font-family: inherit; }
+        .challenge-list { display: grid; gap: 8px; max-height: 590px; overflow: auto; }
+        .challenge-item { border: 1px solid var(--border-color); border-radius: 10px; padding: 10px; background: var(--light-bg); cursor: pointer; }
+        .challenge-item.active { border-color: var(--primary-color); background: #eef6ff; }
+        .challenge-item h4 { margin: 0 0 6px; font-size: 0.94rem; }
+        .pill-row { display: flex; gap: 6px; flex-wrap: wrap; }
+        .pill { font-size: 0.72rem; border: 1px solid var(--border-color); border-radius: 999px; padding: 4px 8px; background: #fff; }
+        .pill.easy { border-color: #9fd8ad; color: #1f7a44; }
+        .pill.medium { border-color: #ffd28d; color: #ad6800; }
+        .pill.hard { border-color: #ffb3b3; color: #c62828; }
+        .statement { font-size: 0.92rem; margin-bottom: 10px; }
+        .mini-title { font-weight: 700; color: var(--primary-dark); font-size: 0.86rem; margin-bottom: 4px; }
+        .constraint-list, .example-list { margin: 0 0 10px; padding-left: 18px; color: var(--gray-text); font-size: 0.84rem; }
+        .editor { width: 100%; min-height: 260px; border: 1px solid var(--border-color); border-radius: 10px; padding: 12px; font-family: "SFMono-Regular", Consolas, Menlo, monospace; background: #0e1525; color: #e8edf7; resize: vertical; }
+        .action-row { margin-top: 10px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .action-row select { border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 12px; font-family: inherit; }
+        .result-box { margin-top: 10px; border: 1px solid var(--border-color); border-radius: 10px; padding: 10px 12px; background: #f8fbff; font-size: 0.86rem; white-space: pre-wrap; word-break: break-word; }
+        .result-box.success { border-color: #9fd8ad; background: #edf9f0; }
+        .result-box.error { border-color: #ffb3b3; background: #fff4f4; }
+        .meta-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; font-size: 0.8rem; color: var(--gray-text); }
+        @media (max-width: 960px) { .arena-grid { grid-template-columns: 1fr; } .filter-row { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo"><div class="logo-icon">TC</div><div class="logo-text">Tejas <span>Computer</span></div></a>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="courses.html" class="nav-link">Courses</a></li>
+                    <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                    <li><a href="practice-arena.html" class="nav-link active">Practice Arena</a></li>
+                </ul>
+                <div class="hamburger"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="arena-container">
+        <div class="section-title" style="text-align:left; margin-bottom: 20px;">
+            <h2>Practice Arena</h2>
+            <p>Solve coding challenges with difficulty levels and interview-focused questions, right inside your platform.</p>
+        </div>
+
+        <div class="arena-grid">
+            <section class="arena-card">
+                <div class="arena-header"><h3><i class="fas fa-puzzle-piece"></i> Challenge List</h3></div>
+                <div class="arena-body">
+                    <div class="filter-row">
+                        <select id="difficultyFilter">
+                            <option value="">All Difficulties</option>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                        <input id="searchFilter" placeholder="Search by title/tag/category">
+                        <label style="display:flex; align-items:center; gap:6px; font-size:0.82rem;"><input id="interviewOnlyFilter" type="checkbox"> Interview</label>
+                    </div>
+                    <div id="challengeList" class="challenge-list"></div>
+                </div>
+            </section>
+
+            <section class="arena-card">
+                <div class="arena-header"><h3><i class="fas fa-code"></i> Solve Challenge</h3></div>
+                <div class="arena-body">
+                    <div id="challengeDetail">
+                        <p style="color: var(--gray-text); margin: 0;">Select a challenge from left panel.</p>
+                    </div>
+                    <textarea id="solutionEditor" class="editor" spellcheck="false"></textarea>
+                    <div class="action-row">
+                        <select id="languageSelect">
+                            <option value="javascript">JavaScript</option>
+                            <option value="python">Python</option>
+                        </select>
+                        <button id="loadStarterBtn" class="btn btn-secondary"><i class="fas fa-file-code"></i> Load Starter</button>
+                        <button id="submitBtn" class="btn btn-primary"><i class="fas fa-play"></i> Run & Submit</button>
+                    </div>
+                    <div id="submitResult" class="result-box">Run your solution to see results.</div>
+                    <div id="submitMeta" class="meta-row"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        const challengeListEl = document.getElementById('challengeList');
+        const challengeDetailEl = document.getElementById('challengeDetail');
+        const solutionEditor = document.getElementById('solutionEditor');
+        const submitBtn = document.getElementById('submitBtn');
+        const submitResult = document.getElementById('submitResult');
+        const submitMeta = document.getElementById('submitMeta');
+        const loadStarterBtn = document.getElementById('loadStarterBtn');
+        const languageSelect = document.getElementById('languageSelect');
+        const difficultyFilter = document.getElementById('difficultyFilter');
+        const searchFilter = document.getElementById('searchFilter');
+        const interviewOnlyFilter = document.getElementById('interviewOnlyFilter');
+
+        let challengeList = [];
+        let activeChallenge = null;
+
+        function getUserEmail() {
+            const raw = localStorage.getItem('user');
+            if (!raw) return '';
+            try {
+                const user = JSON.parse(raw);
+                return String(user.email || '').trim().toLowerCase();
+            } catch (error) {
+                return '';
+            }
+        }
+
+        function difficultyClass(level) {
+            const v = String(level || '').toLowerCase();
+            if (v === 'easy') return 'easy';
+            if (v === 'medium') return 'medium';
+            if (v === 'hard') return 'hard';
+            return '';
+        }
+
+        function renderChallengeList() {
+            challengeListEl.innerHTML = challengeList.map(item => `
+                <div class="challenge-item ${activeChallenge && activeChallenge.id === item.id ? 'active' : ''}" data-id="${item.id}">
+                    <h4>${item.title}</h4>
+                    <div class="pill-row">
+                        <span class="pill ${difficultyClass(item.difficulty)}">${item.difficulty}</span>
+                        <span class="pill">${item.category}</span>
+                        ${item.interview ? '<span class="pill">Interview</span>' : ''}
+                    </div>
+                </div>
+            `).join('');
+
+            challengeListEl.querySelectorAll('.challenge-item').forEach(node => {
+                node.addEventListener('click', async () => {
+                    const id = node.getAttribute('data-id');
+                    await loadChallengeDetails(id);
+                    renderChallengeList();
+                });
+            });
+        }
+
+        async function loadChallenges() {
+            const params = new URLSearchParams();
+            if (difficultyFilter.value) params.set('difficulty', difficultyFilter.value);
+            if (searchFilter.value.trim()) params.set('search', searchFilter.value.trim());
+            if (interviewOnlyFilter.checked) params.set('interview', 'true');
+
+            const response = await fetch(`/api/practice/challenges?${params.toString()}`);
+            const data = await response.json();
+            if (!response.ok || !data.success) return;
+            challengeList = data.challenges || [];
+            renderChallengeList();
+            if (!activeChallenge && challengeList.length) {
+                await loadChallengeDetails(challengeList[0].id);
+                renderChallengeList();
+            }
+        }
+
+        async function loadChallengeDetails(id) {
+            const response = await fetch(`/api/practice/challenges/${encodeURIComponent(id)}`);
+            const data = await response.json();
+            if (!response.ok || !data.success) return;
+            activeChallenge = data.challenge;
+            renderChallengeDetails();
+            loadStarterCode();
+        }
+
+        function renderChallengeDetails() {
+            if (!activeChallenge) {
+                challengeDetailEl.innerHTML = '<p style="color: var(--gray-text); margin: 0;">Select a challenge from left panel.</p>';
+                return;
+            }
+
+            challengeDetailEl.innerHTML = `
+                <h3 style="margin: 0 0 6px; color: var(--primary-dark);">${activeChallenge.title}</h3>
+                <div class="pill-row" style="margin-bottom: 8px;">
+                    <span class="pill ${difficultyClass(activeChallenge.difficulty)}">${activeChallenge.difficulty}</span>
+                    <span class="pill">${activeChallenge.category}</span>
+                    ${activeChallenge.interview ? '<span class="pill">Interview Question</span>' : ''}
+                </div>
+                <div class="statement">${activeChallenge.statement}</div>
+                <div class="mini-title">Constraints</div>
+                <ul class="constraint-list">${(activeChallenge.constraints || []).map(c => `<li>${c}</li>`).join('')}</ul>
+                <div class="mini-title">Examples</div>
+                <ul class="example-list">${(activeChallenge.examples || []).map(ex => `<li><strong>Input:</strong> ${ex.input}<br><strong>Output:</strong> ${ex.output}</li>`).join('')}</ul>
+            `;
+        }
+
+        function loadStarterCode() {
+            if (!activeChallenge) return;
+            const starter = activeChallenge.starterCode || {};
+            solutionEditor.value = starter[languageSelect.value] || '';
+        }
+
+        async function submitSolution() {
+            const email = getUserEmail();
+            if (!email) {
+                alert('Please login first to use Practice Arena.');
+                window.location.href = 'login.html';
+                return;
+            }
+            if (!activeChallenge) return;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Running...';
+            submitResult.className = 'result-box';
+            submitResult.textContent = 'Evaluating...';
+            submitMeta.innerHTML = '';
+
+            try {
+                const response = await fetch('/api/practice/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email,
+                        challengeId: activeChallenge.id,
+                        language: languageSelect.value,
+                        code: solutionEditor.value || ''
+                    })
+                });
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    submitResult.className = 'result-box error';
+                    submitResult.textContent = data.message || 'Submission failed.';
+                    return;
+                }
+
+                if (data.passed) {
+                    submitResult.className = 'result-box success';
+                    submitResult.textContent = `All test cases passed (${data.passedCount}/${data.total}). Great job!`;
+                } else {
+                    submitResult.className = 'result-box error';
+                    const expected = data.expected !== null ? `\nExpected: ${JSON.stringify(data.expected)}` : '';
+                    const actual = data.actual !== null ? `\nActual: ${JSON.stringify(data.actual)}` : '';
+                    const error = data.error ? `\nError: ${data.error}` : '';
+                    submitResult.textContent = `Passed ${data.passedCount}/${data.total} tests.${data.failedAt ? ` Failed at test #${data.failedAt}.` : ''}${expected}${actual}${error}`;
+                }
+
+                submitMeta.innerHTML = `
+                    <span>Solved: ${data.practiceStats?.solvedCount || 0}</span>
+                    <span>Attempts: ${data.practiceStats?.attempts || 0}</span>
+                    <span>XP Gained: +${data.xpGained || 0}</span>
+                `;
+
+                if (data.user) {
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                }
+            } catch (error) {
+                submitResult.className = 'result-box error';
+                submitResult.textContent = `Network error: ${error.message || 'Unknown error'}`;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-play"></i> Run & Submit';
+            }
+        }
+
+        [difficultyFilter, interviewOnlyFilter].forEach(el => el.addEventListener('change', loadChallenges));
+        searchFilter.addEventListener('input', () => {
+            clearTimeout(window.__challengeSearchTimer);
+            window.__challengeSearchTimer = setTimeout(loadChallenges, 250);
+        });
+        languageSelect.addEventListener('change', loadStarterCode);
+        loadStarterBtn.addEventListener('click', loadStarterCode);
+        submitBtn.addEventListener('click', submitSolution);
+
+        loadChallenges();
+    </script>
+</body>
+</html>

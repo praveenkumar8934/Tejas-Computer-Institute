@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Details | Tejas Computer Institute</title>
+    <meta name="description" content="Detailed syllabus and learning outcomes for Tejas Computer Institute courses.">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .course-detail-hero {
+            padding: 150px 0 70px;
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.95), rgba(0, 68, 153, 0.9));
+            color: var(--white);
+        }
+
+        .course-detail-hero h1,
+        .course-detail-hero p {
+            color: var(--white);
+        }
+
+        .course-detail-hero p {
+            opacity: 0.92;
+        }
+
+        .course-meta-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .meta-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            font-size: 0.9rem;
+        }
+
+        .detail-actions {
+            margin-top: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .course-detail-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 24px;
+        }
+
+        .course-box {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 18px;
+        }
+
+        .course-box h3 {
+            margin-bottom: 12px;
+            color: var(--primary-color);
+        }
+
+        .topic-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .topic-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .topic-search {
+            flex: 1;
+            min-width: 220px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-family: inherit;
+        }
+
+        .topic-count {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .module-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .module-tab {
+            border: 1px solid var(--border-color);
+            background: var(--white);
+            color: var(--dark-text);
+            border-radius: 999px;
+            padding: 7px 12px;
+            font-size: 0.86rem;
+            cursor: pointer;
+        }
+
+        .module-tab.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .topic-item {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+        }
+
+        .topic-item input[type="checkbox"] {
+            margin-top: 3px;
+            accent-color: var(--primary-color);
+        }
+
+        .topic-item.completed {
+            opacity: 0.7;
+            background: #ecf8ef;
+            border-color: #bfe6c8;
+        }
+
+        .topic-item.completed span {
+            text-decoration: line-through;
+        }
+
+        .topic-item i {
+            color: var(--primary-color);
+            margin-top: 2px;
+        }
+
+        .course-image-preview {
+            width: 100%;
+            border-radius: 14px;
+            margin-bottom: 16px;
+            object-fit: cover;
+            max-height: 240px;
+        }
+
+        .course-outcomes {
+            display: grid;
+            gap: 10px;
+        }
+
+        .course-outcomes li {
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 12px;
+            color: var(--dark-text);
+        }
+
+        .course-not-found {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .progress-line {
+            margin-top: 8px;
+            margin-bottom: 14px;
+        }
+
+        .progress-track {
+            height: 10px;
+            border-radius: 999px;
+            background: var(--light-gray);
+            overflow: hidden;
+        }
+
+        .progress-value {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: inherit;
+            transition: width 0.25s ease;
+        }
+
+        .xp-toast-wrap {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            z-index: 1200;
+            display: grid;
+            gap: 8px;
+            pointer-events: none;
+        }
+
+        .xp-toast {
+            background: #112e1f;
+            color: #d8ffe3;
+            border: 1px solid #1f5f39;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            transform: translateY(10px);
+            opacity: 0;
+            animation: xpToastIn 0.25s ease forwards, xpToastOut 0.3s ease 2s forwards;
+        }
+
+        @keyframes xpToastIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes xpToastOut {
+            to {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .course-detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">TC</div>
+                    <div class="logo-text">Tejas <span>Computer</span></div>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="courses.html" class="nav-link active">Courses</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="login.html" class="nav-link btn-login">Login</a></li>
+                    <li><a href="register.html" class="nav-link btn-register">Register</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="courseDetailRoot">
+        <section class="course-not-found">
+            <h2>Loading course details...</h2>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 Tejas Computer Institute. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        function getCourseIdentifier() {
+            const pathMatch = window.location.pathname.match(/\/course\/([^/]+)$/);
+            if (pathMatch && pathMatch[1]) return decodeURIComponent(pathMatch[1]);
+            const params = new URLSearchParams(window.location.search);
+            return params.get('course');
+        }
+
+        function renderCourse(course) {
+            const root = document.getElementById('courseDetailRoot');
+            const topics = Array.isArray(course.topics) ? course.topics : [];
+            const topicModules = Array.isArray(course.topicModules) ? course.topicModules : [];
+            const outcomes = Array.isArray(course.outcomes) ? course.outcomes : [];
+
+            root.innerHTML = `
+                <section class="course-detail-hero">
+                    <div class="container">
+                        <h1>${course.title}</h1>
+                        <p>${course.description}</p>
+                        <div class="course-meta-tags">
+                            <span class="meta-tag"><i class="fas fa-clock"></i> ${course.duration}</span>
+                            <span class="meta-tag"><i class="fas fa-signal"></i> ${course.level}</span>
+                            <span class="meta-tag"><i class="fas fa-tag"></i> ${course.priceLabel || (course.price ? `INR ${Math.round(course.price)}` : 'Price on request')}</span>
+                            <span class="meta-tag"><i class="fas fa-layer-group"></i> ${topics.length} Topics</span>
+                        </div>
+                        <div class="detail-actions">
+                            <a href="/api/courses/${encodeURIComponent(course.slug || course.id)}/syllabus.pdf" class="btn btn-secondary">
+                                <i class="fas fa-file-pdf"></i> Download PDF Syllabus
+                            </a>
+                            <button id="enrollNowBtn" type="button" class="btn btn-primary">
+                                <i class="fas fa-credit-card"></i> Enroll Now
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="container">
+                        <div class="course-detail-grid">
+                            <div>
+                                <div class="course-box">
+                                    <h3><i class="fas fa-book-open"></i> Course Overview</h3>
+                                    <p>${course.overview || course.description}</p>
+                                </div>
+                                <div class="course-box">
+                                    <h3><i class="fas fa-list-check"></i> Topics To Be Covered</h3>
+                                    <div class="topic-controls">
+                                        <input id="topicSearchInput" class="topic-search" placeholder="Search topic in syllabus...">
+                                        <span id="topicCountLabel" class="topic-count">${topics.length} topics</span>
+                                    </div>
+                                    <div id="moduleTabs" class="module-tabs"></div>
+                                    <div id="topicList" class="topic-list"></div>
+                                </div>
+                            </div>
+                            <aside>
+                                <div class="course-box">
+                                    <img class="course-image-preview" src="${course.image}" alt="${course.title}">
+                                    <h3><i class="fas fa-rocket"></i> What You Will Achieve</h3>
+                                    <div class="progress-line">
+                                        <div id="progressLabel" class="topic-count">0% completed</div>
+                                        <div class="progress-track">
+                                            <div id="progressValue" class="progress-value"></div>
+                                        </div>
+                                    </div>
+                                    <ul class="course-outcomes">
+                                        ${(outcomes.length ? outcomes : [
+                                            'Build practical projects by the end of this course',
+                                            'Prepare for job interviews with confidence',
+                                            'Earn a completion certificate from the institute'
+                                        ]).map(item => `<li>${item}</li>`).join('')}
+                                    </ul>
+                                </div>
+                                <div class="course-box">
+                                    <h3><i class="fas fa-phone-volume"></i> Need Guidance?</h3>
+                                    <p>Get free counseling before enrollment to choose the best track for your career goal.</p>
+                                    <a href="contact.html" class="btn btn-primary" style="margin-top: 10px;">Talk To Counselor</a>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+                </section>
+            `;
+
+            window.courseTopicController = initTopicExplorer(course, topics, topicModules);
+            initEnrollButton(course);
+        }
+
+        function getProgressOwnerKey() {
+            const userRaw = localStorage.getItem('user');
+            if (!userRaw) return 'guest';
+            try {
+                const user = JSON.parse(userRaw);
+                return String(user.email || 'guest').trim().toLowerCase() || 'guest';
+            } catch (error) {
+                return 'guest';
+            }
+        }
+
+        function getProgressKey(slug) {
+            return `courseProgress::${getProgressOwnerKey()}::${slug}`;
+        }
+
+        function isCourseEnrolled(course) {
+            const userRaw = localStorage.getItem('user');
+            if (!userRaw) return false;
+            try {
+                const user = JSON.parse(userRaw);
+                return Array.isArray(user.enrolledCourses)
+                    ? user.enrolledCourses.some(item => item && item.slug === course.slug)
+                    : false;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function loadProgress(slug) {
+            const raw = localStorage.getItem(getProgressKey(slug));
+            if (!raw) return { completedTopics: [] };
+            try {
+                const parsed = JSON.parse(raw);
+                return { completedTopics: Array.isArray(parsed.completedTopics) ? parsed.completedTopics : [] };
+            } catch (error) {
+                return { completedTopics: [] };
+            }
+        }
+
+        function saveProgress(course, completedTopics) {
+            if (!completedTopics.length) {
+                localStorage.removeItem(getProgressKey(course.slug));
+                return;
+            }
+            const percent = course.topics.length ? Math.round((completedTopics.length / course.topics.length) * 100) : 0;
+            const payload = {
+                courseId: course.id,
+                courseSlug: course.slug,
+                courseTitle: course.title,
+                completedTopics,
+                completedCount: completedTopics.length,
+                totalTopics: course.topics.length,
+                percent,
+                updatedAt: new Date().toISOString()
+            };
+            localStorage.setItem(getProgressKey(course.slug), JSON.stringify(payload));
+        }
+
+        function showXpToast(message) {
+            let wrap = document.getElementById('xpToastWrap');
+            if (!wrap) {
+                wrap = document.createElement('div');
+                wrap.id = 'xpToastWrap';
+                wrap.className = 'xp-toast-wrap';
+                document.body.appendChild(wrap);
+            }
+
+            const toast = document.createElement('div');
+            toast.className = 'xp-toast';
+            toast.innerHTML = `<i class="fas fa-star"></i> ${message}`;
+            wrap.appendChild(toast);
+            window.setTimeout(() => toast.remove(), 2400);
+        }
+
+        async function syncProgressToServer(course, completedTopics) {
+            const userRaw = localStorage.getItem('user');
+            if (!userRaw) return 0;
+
+            try {
+                const user = JSON.parse(userRaw);
+                if (!user || !user.email) return 0;
+
+                const totalTopics = Array.isArray(course.topics) ? course.topics.length : 0;
+                const completedCount = completedTopics.length;
+                const percent = totalTopics ? Math.round((completedCount / totalTopics) * 100) : 0;
+
+                const response = await fetch('/api/users/progress', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: user.email,
+                        courseSlug: course.slug,
+                        courseTitle: course.title,
+                        completedCount,
+                        totalTopics,
+                        percent
+                    })
+                });
+
+                if (!response.ok) return 0;
+                const data = await response.json();
+                if (data && data.success && data.user) {
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                }
+                return Math.max(0, Number(data?.xpGained) || 0);
+            } catch (error) {
+                // Ignore sync failures; local progress stays usable offline.
+                return 0;
+            }
+        }
+
+        function initTopicExplorer(course, allTopics, modules) {
+            const tabsRoot = document.getElementById('moduleTabs');
+            const listRoot = document.getElementById('topicList');
+            const searchInput = document.getElementById('topicSearchInput');
+            const countLabel = document.getElementById('topicCountLabel');
+            const progressLabel = document.getElementById('progressLabel');
+            const progressValue = document.getElementById('progressValue');
+            if (!listRoot || !searchInput || !countLabel || !progressLabel || !progressValue) return;
+
+            const normalizedModules = modules && modules.length ? modules : [{ name: 'All Topics', topics: allTopics }];
+            let activeModule = normalizedModules[0].name;
+            let enrolled = isCourseEnrolled(course);
+            const initialProgress = loadProgress(course.slug);
+            const validTopics = new Set(allTopics);
+            const completed = new Set(
+                initialProgress.completedTopics.filter(topic => validTopics.has(topic))
+            );
+
+            const updateProgressUi = async (persist) => {
+                const done = completed.size;
+                const total = allTopics.length || 1;
+                const percent = Math.round((done / total) * 100);
+                progressLabel.textContent = `${percent}% completed (${done}/${allTopics.length})`;
+                progressValue.style.width = `${percent}%`;
+                if (persist) {
+                    const completedList = [...completed];
+                    saveProgress(course, completedList);
+                    const xpGained = await syncProgressToServer(course, completedList);
+                    if (xpGained > 0) {
+                        showXpToast(`+${xpGained} XP earned`);
+                    }
+                }
+            };
+
+            if (tabsRoot) {
+                tabsRoot.innerHTML = normalizedModules.map((module, index) => `
+                    <button type="button" class="module-tab ${index === 0 ? 'active' : ''}" data-module="${module.name}">
+                        ${module.name} (${module.topics.length})
+                    </button>
+                `).join('');
+
+                tabsRoot.querySelectorAll('.module-tab').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        tabsRoot.querySelectorAll('.module-tab').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        activeModule = btn.getAttribute('data-module');
+                        renderTopicList();
+                    });
+                });
+            }
+
+            searchInput.addEventListener('input', renderTopicList);
+
+            function renderTopicList() {
+                const query = searchInput.value.trim().toLowerCase();
+                const module = normalizedModules.find(m => m.name === activeModule) || normalizedModules[0];
+                const filtered = module.topics.filter(topic => topic.toLowerCase().includes(query));
+
+                listRoot.innerHTML = filtered.map(topic => `
+                    <div class="topic-item ${completed.has(topic) ? 'completed' : ''}">
+                        <input type="checkbox" data-topic="${encodeURIComponent(topic)}" ${completed.has(topic) ? 'checked' : ''} ${enrolled ? '' : 'disabled'}>
+                        <span>${topic}</span>
+                    </div>
+                `).join('');
+
+                countLabel.textContent = enrolled
+                    ? `${filtered.length} topic${filtered.length !== 1 ? 's' : ''} shown`
+                    : 'Enroll in this course to activate checkboxes';
+
+                listRoot.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                    cb.addEventListener('change', () => {
+                        if (!enrolled) return;
+                        const topic = decodeURIComponent(cb.getAttribute('data-topic') || '');
+                        if (!topic) return;
+                        if (cb.checked) {
+                            completed.add(topic);
+                        } else {
+                            completed.delete(topic);
+                        }
+                        cb.closest('.topic-item')?.classList.toggle('completed', cb.checked);
+                        updateProgressUi(true);
+                    });
+                });
+            }
+
+            renderTopicList();
+            updateProgressUi(false);
+
+            return {
+                activate() {
+                    enrolled = true;
+                    renderTopicList();
+                }
+            };
+        }
+
+        function renderNotFound() {
+            const root = document.getElementById('courseDetailRoot');
+            root.innerHTML = `
+                <section class="course-not-found">
+                    <h2>Course Not Found</h2>
+                    <p style="margin-top: 8px;">The requested course could not be found.</p>
+                    <a href="courses.html" class="btn btn-primary" style="margin-top: 16px;">Back to Courses</a>
+                </section>
+            `;
+        }
+
+        function initEnrollButton(course) {
+            const enrollBtn = document.getElementById('enrollNowBtn');
+            if (!enrollBtn) return;
+
+            const userRaw = localStorage.getItem('user');
+            if (userRaw) {
+                try {
+                    const user = JSON.parse(userRaw);
+                    const enrolled = Array.isArray(user.enrolledCourses)
+                        ? user.enrolledCourses.some(item => item && item.slug === course.slug)
+                        : false;
+                    if (enrolled) {
+                        enrollBtn.innerHTML = '<i class="fas fa-play-circle"></i> Continue Learning';
+                    }
+                } catch (error) {
+                    // Ignore malformed localStorage user payload.
+                }
+            }
+
+            enrollBtn.addEventListener('click', async () => {
+                const currentUserRaw = localStorage.getItem('user');
+                if (currentUserRaw) {
+                    try {
+                        const currentUser = JSON.parse(currentUserRaw);
+                        const enrolled = Array.isArray(currentUser.enrolledCourses)
+                            ? currentUser.enrolledCourses.some(item => item && item.slug === course.slug)
+                            : false;
+                        if (enrolled) {
+                            document.getElementById('topicList')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            return;
+                        }
+                    } catch (error) {
+                        // Ignore parse errors and continue to payment.
+                    }
+                } else {
+                    alert('Please login or register first to enroll in this course.');
+                    return;
+                }
+
+                window.location.href = `payment.html?course=${encodeURIComponent(course.slug || String(course.id))}`;
+            });
+        }
+
+        async function loadCourseDetails() {
+            const identifier = getCourseIdentifier();
+            if (!identifier) {
+                renderNotFound();
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/courses/${encodeURIComponent(identifier)}`);
+                if (!response.ok) {
+                    renderNotFound();
+                    return;
+                }
+                const course = await response.json();
+                renderCourse(course);
+                document.title = `${course.title} | Tejas Computer Institute`;
+            } catch (error) {
+                renderNotFound();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCourseDetails);
+    </script>
+</body>
+</html>

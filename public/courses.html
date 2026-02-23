@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses | Tejas Computer Institute</title>
+    <meta name="description" content="Explore our comprehensive computer training courses including Programming, Web Development, Data Science, Tally, and MS Office.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">TC</div>
+                    <div class="logo-text">Tejas <span>Computer</span></div>
+                </a>
+                
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="about.html" class="nav-link">About Us</a></li>
+                    <li><a href="courses.html" class="nav-link active">Courses</a></li>
+                    <li><a href="testimonials.html" class="nav-link">Testimonials</a></li>
+                    <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                    <li><a href="faculty.html" class="nav-link">Faculty</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="login.html" class="nav-link btn-login">Login</a></li>
+                    <li><a href="register.html" class="nav-link btn-register">Register</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Our Courses</h1>
+            <p>Comprehensive computer training programs designed for your success</p>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span>/</span>
+                <span>Courses</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>All Courses</h2>
+                <p>Choose from our wide range of computer training programs</p>
+            </div>
+            
+            <div class="courses-grid" id="coursesGrid">
+                <!-- Courses will be loaded dynamically via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Categories -->
+    <section class="section" style="background: var(--light-bg);">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Course Categories</h2>
+                <p>We offer diverse courses to meet different career needs</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h4>Programming</h4>
+                    <p>Python, Java, C++ - Master the art of coding</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h4>Web Development</h4>
+                    <p>Build modern websites and web applications</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h4>Data Science</h4>
+                    <p>Learn AI, ML, and data analysis</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h4>Accounting</h4>
+                    <p>Tally Prime, GST, and financial accounting</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Learn With Us -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Why Learn With Us?</h2>
+                <p>Benefits of joining Tejas Computer Institute</p>
+            </div>
+            
+            <div class="about-grid">
+                <div class="about-content fade-in">
+                    <h2>Practical Training for Real-World Success</h2>
+                    <p>At Tejas Computer Institute, we believe in learning by doing. Our courses are designed with practical projects and assignments that prepare you for real-world challenges.</p>
+                    
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <i class="fas fa-laptop-code"></i>
+                            <div>
+                                <h4>Hands-on Projects</h4>
+                                <p>Work on real projects to build your portfolio</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-certificate"></i>
+                            <div>
+                                <h4>Certificates</h4>
+                                <p>Get recognized certificates upon completion</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-user-tie"></i>
+                            <div>
+                                <h4>Career Support</h4>
+                                <p>Job placement assistance and guidance</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <h4>Small Batches</h4>
+                                <p>Personalized attention for each student</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-image fade-in">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600" alt="Training">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section" style="background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));">
+        <div class="container">
+            <div style="text-align: center; color: var(--white);">
+                <h2 style="color: var(--white); margin-bottom: 20px;">Have Questions?</h2>
+                <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.2rem; margin-bottom: 30px;">Contact us to know more about our courses and enrollment process.</p>
+                <a href="contact.html" class="btn btn-secondary">Contact Us <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">TC</div>
+                        <div class="logo-text" style="color: var(--white);">Tejas <span>Computer</span></div>
+                    </a>
+                    <p>Tejas Computer Institute is a leading computer training center dedicated to providing quality education and practical skills to students.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="courses.html">Courses</a></li>
+                        <li><a href="testimonials.html">Testimonials</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Courses</h4>
+                    <ul>
+                        <li><a href="courses.html">Python Programming</a></li>
+                        <li><a href="courses.html">Web Development</a></li>
+                        <li><a href="courses.html">Data Science</a></li>
+                        <li><a href="courses.html">Tally & GST</a></li>
+                        <li><a href="courses.html">MS Office</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Dhanaha urf Malludih PO, Karmaini Preamwaliya, Kasia, Kushinagar</li>
+                        <li><i class="fas fa-phone"></i> +91 8934039262</li>
+                        <li><i class="fas fa-envelope"></i> pk5952424@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Tejas Computer Institute. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>
