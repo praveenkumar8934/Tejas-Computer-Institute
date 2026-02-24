@@ -841,8 +841,10 @@ async function initCourseCards() {
         try {
             const response = await fetch('/api/courses');
             const courses = await response.json();
-            
-            coursesGrid.innerHTML = courses.map(course => createCourseCard(course)).join('');
+            const page = window.location.pathname.split('/').pop() || 'index.html';
+            const displayCourses = page === 'index.html' ? courses.slice(0, 6) : courses;
+
+            coursesGrid.innerHTML = displayCourses.map(course => createCourseCard(course)).join('');
             observeNewFadeElements();
             applyCourseFilter();
         } catch (error) {

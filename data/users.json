@@ -21,20 +21,21 @@
       }
     ],
     "gamification": {
-      "xp": 3994,
-      "level": 16,
+      "xp": 9138,
+      "level": 37,
       "badges": [
         "first-enroll",
         "xp-100",
         "xp-500",
-        "three-courses"
+        "three-courses",
+        "streak-3"
       ],
-      "streakCurrent": 2,
-      "streakLongest": 2,
-      "lastActiveDate": "2026-02-23",
+      "streakCurrent": 3,
+      "streakLongest": 3,
+      "lastActiveDate": "2026-02-24",
       "weeklyProgress": {
         "weekKey": "2026-W09",
-        "topicsCompleted": 99,
+        "topicsCompleted": 335,
         "rewardClaimed": false,
         "rewardXp": 0
       },
@@ -45,7 +46,7 @@
           "completedCount": 0,
           "totalTopics": 60,
           "percent": 0,
-          "updatedAt": "2026-02-22T10:36:15.249Z"
+          "updatedAt": "2026-02-23T17:00:40.165Z"
         }
       }
     },
@@ -58,9 +59,9 @@
       "lastAttemptAt": ""
     },
     "aiMentor": {
-      "lastReminderDate": "2026-02-23",
+      "lastReminderDate": "2026-02-24",
       "message": "Praveen, complete C++ Programming: orientation and roadmap today to stay on track for Tech Professional role.",
-      "generatedAt": "2026-02-23T09:32:30.825Z"
+      "generatedAt": "2026-02-24T07:59:01.608Z"
     }
   }
 ]

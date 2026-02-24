@@ -121,13 +121,38 @@
         }
 
         .topic-item {
-            display: flex;
-            gap: 10px;
-            align-items: flex-start;
+            display: grid;
+            gap: 8px;
             padding: 10px 12px;
             border-radius: 10px;
             background: var(--light-bg);
             border: 1px solid var(--border-color);
+        }
+
+        .topic-main {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .topic-toggle {
+            border: 0;
+            background: transparent;
+            color: var(--dark-text);
+            font: inherit;
+            text-align: left;
+            cursor: pointer;
+            flex: 1;
+            padding: 0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .topic-toggle[disabled] {
+            cursor: not-allowed;
+            opacity: 0.7;
         }
 
         .topic-item input[type="checkbox"] {
@@ -148,6 +173,33 @@
         .topic-item i {
             color: var(--primary-color);
             margin-top: 2px;
+        }
+
+        .topic-chevron {
+            color: var(--primary-color);
+            transition: transform 0.2s ease;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .topic-item.open .topic-chevron {
+            transform: rotate(180deg);
+        }
+
+        .topic-explanation {
+            margin-left: 28px;
+            display: none;
+            font-size: 0.92rem;
+            color: var(--gray-text);
+            line-height: 1.55;
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 12px;
+        }
+
+        .topic-item.open .topic-explanation {
+            display: block;
         }
 
         .course-image-preview {
@@ -505,6 +557,13 @@
                 initialProgress.completedTopics.filter(topic => validTopics.has(topic))
             );
 
+            const buildTopicExplanation = (topic) => {
+                const topicText = String(topic || '').trim();
+                const cleanTopic = topicText.replace(/^.*?:\s*/, '');
+                const friendlyTopic = cleanTopic.charAt(0).toUpperCase() + cleanTopic.slice(1);
+                return `${friendlyTopic}: In this topic, you will learn key concepts, step-by-step practical implementation, and a guided exercise to apply it in ${course.title}.`;
+            };
+
             const updateProgressUi = async (persist) => {
                 const done = completed.size;
                 const total = allTopics.length || 1;
@@ -547,8 +606,14 @@
 
                 listRoot.innerHTML = filtered.map(topic => `
                     <div class="topic-item ${completed.has(topic) ? 'completed' : ''}">
-                        <input type="checkbox" data-topic="${encodeURIComponent(topic)}" ${completed.has(topic) ? 'checked' : ''} ${enrolled ? '' : 'disabled'}>
-                        <span>${topic}</span>
+                        <div class="topic-main">
+                            <input type="checkbox" data-topic="${encodeURIComponent(topic)}" ${completed.has(topic) ? 'checked' : ''} ${enrolled ? '' : 'disabled'}>
+                            <button type="button" class="topic-toggle" data-topic-toggle="${encodeURIComponent(topic)}" aria-expanded="false" ${enrolled ? '' : 'disabled'} title="${enrolled ? 'Click to view topic explanation' : 'Enroll to unlock topic explanation'}">
+                                <span>${topic}</span>
+                                <i class="fas fa-chevron-down topic-chevron"></i>
+                            </button>
+                        </div>
+                        <div class="topic-explanation">${enrolled ? buildTopicExplanation(topic) : 'Enroll in this course to unlock topic explanation for this topic.'}</div>
                     </div>
                 `).join('');
 
@@ -568,6 +633,27 @@
                         }
                         cb.closest('.topic-item')?.classList.toggle('completed', cb.checked);
                         updateProgressUi(true);
+                    });
+                });
+
+                listRoot.querySelectorAll('.topic-toggle').forEach(toggleBtn => {
+                    toggleBtn.addEventListener('click', () => {
+                        if (!enrolled || toggleBtn.disabled) return;
+                        const item = toggleBtn.closest('.topic-item');
+                        if (!item) return;
+                        const isOpen = item.classList.contains('open');
+
+                        listRoot.querySelectorAll('.topic-item.open').forEach(openItem => {
+                            openItem.classList.remove('open');
+                        });
+                        listRoot.querySelectorAll('.topic-toggle[aria-expanded="true"]').forEach(openBtn => {
+                            openBtn.setAttribute('aria-expanded', 'false');
+                        });
+
+                        if (!isOpen) {
+                            item.classList.add('open');
+                            toggleBtn.setAttribute('aria-expanded', 'true');
+                        }
                     });
                 });
             }

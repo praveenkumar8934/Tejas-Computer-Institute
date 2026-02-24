@@ -7,6 +7,8 @@
     <meta name="description" content="Run code virtually inside Tejas Code Lab.">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
         .lab-container {
@@ -61,6 +63,19 @@
             color: #e8edf7;
         }
 
+        .CodeMirror {
+            height: 430px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.95rem;
+        }
+
+        .CodeMirror-gutters {
+            border-right: 1px solid #243552;
+            background: #0b1322;
+        }
+
         .lab-controls {
             display: flex;
             gap: 10px;
@@ -78,17 +93,6 @@
             font-size: 0.85rem;
             color: var(--gray-text);
             margin-bottom: 6px;
-        }
-
-        .lab-stdin {
-            width: 100%;
-            min-height: 90px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 10px;
-            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-            font-size: 0.86rem;
-            background: #fafcff;
         }
 
         .snippet-row {
@@ -148,6 +152,45 @@
             background: #122017;
         }
 
+        .lab-output-shell {
+            position: relative;
+        }
+
+        .inline-stdin {
+            margin-top: 10px;
+            border: 1px solid #243552;
+            border-radius: 10px;
+            padding: 10px;
+            background: #0d1422;
+            display: block;
+        }
+
+        .inline-stdin-label {
+            display: block;
+            font-size: 0.82rem;
+            color: #a9c0df;
+            margin-bottom: 6px;
+        }
+
+        .inline-stdin-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .inline-stdin-input {
+            flex: 1;
+            min-height: 42px;
+            border: 1px solid #2f4668;
+            border-radius: 8px;
+            padding: 9px 10px;
+            background: #111b2d;
+            color: #d2deee;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.86rem;
+            resize: vertical;
+        }
+
         .plot-output {
             margin-top: 12px;
             border: 1px solid var(--border-color);
@@ -180,8 +223,17 @@
                 min-height: 320px;
             }
 
+            .CodeMirror {
+                height: 320px;
+            }
+
             .lab-output {
                 min-height: 260px;
+            }
+
+            .inline-stdin-row {
+                flex-direction: column;
+                align-items: stretch;
             }
         }
     </style>
@@ -245,12 +297,6 @@ sum;</textarea>
                         <button id="clearCodeBtn" class="btn btn-secondary"><i class="fas fa-eraser"></i> Clear</button>
                     </div>
                     <div class="lab-subsection">
-                        <label for="stdinInput">Input (stdin, optional; one value per line)</label>
-                        <textarea id="stdinInput" class="lab-stdin" spellcheck="false" placeholder="Example:
-5
-10"></textarea>
-                    </div>
-                    <div class="lab-subsection">
                         <label>Saved Snippets</label>
                         <div class="snippet-row">
                             <input id="snippetNameInput" placeholder="Snippet name">
@@ -269,11 +315,24 @@ sum;</textarea>
 
             <section class="lab-card">
                 <div class="lab-card-header">
-                    <h3><i class="fas fa-terminal"></i> Output</h3>
+                    <h3><i class="fas fa-terminal"></i> Console (Input + Output)</h3>
                     <span class="lab-meta" id="runMeta">Ready</span>
                 </div>
                 <div class="lab-card-body">
-                    <pre id="codeOutput" class="lab-output">Run your code to see output here.</pre>
+                    <div class="lab-output-shell">
+                        <pre id="codeOutput" class="lab-output">Run your code to see output here.</pre>
+                        <div class="inline-stdin">
+                            <label class="inline-stdin-label" for="inlineStdinInput">Input (stdin) in same output window:</label>
+                            <div class="inline-stdin-row">
+                                <textarea id="inlineStdinInput" class="inline-stdin-input" spellcheck="false" placeholder="Example:
+5
+10"></textarea>
+                                <button id="inlineRunBtn" class="btn btn-primary" type="button">
+                                    <i class="fas fa-paper-plane"></i> Run With Input
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                     <div id="plotOutputWrap" class="plot-output" hidden>
                         <p class="plot-title">Generated Plot</p>
                         <img id="plotOutputImage" alt="Generated matplotlib plot">
@@ -284,6 +343,16 @@ sum;</textarea>
     </main>
 
     <script src="js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/go/go.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/ruby/ruby.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/php/php.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/sql/sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
     <script>
         function getUser() {
             const raw = localStorage.getItem('user');
@@ -301,9 +370,10 @@ sum;</textarea>
         const clearBtn = document.getElementById('clearCodeBtn');
         const output = document.getElementById('codeOutput');
         const runMeta = document.getElementById('runMeta');
-        const editor = document.getElementById('codeEditor');
+        const editorTextarea = document.getElementById('codeEditor');
         const languageSelect = document.getElementById('languageSelect');
-        const stdinInput = document.getElementById('stdinInput');
+        const inlineStdinInput = document.getElementById('inlineStdinInput');
+        const inlineRunBtn = document.getElementById('inlineRunBtn');
         const plotOutputWrap = document.getElementById('plotOutputWrap');
         const plotOutputImage = document.getElementById('plotOutputImage');
         const snippetNameInput = document.getElementById('snippetNameInput');
@@ -311,6 +381,71 @@ sum;</textarea>
         const saveSnippetBtn = document.getElementById('saveSnippetBtn');
         const loadSnippetBtn = document.getElementById('loadSnippetBtn');
         const deleteSnippetBtn = document.getElementById('deleteSnippetBtn');
+        let codeEditorInstance = null;
+
+        function getEditorMode(language) {
+            const modeMap = {
+                javascript: 'javascript',
+                python: 'python',
+                c: 'text/x-csrc',
+                cpp: 'text/x-c++src',
+                java: 'text/x-java',
+                go: 'go',
+                ruby: 'ruby',
+                php: 'application/x-httpd-php',
+                csharp: 'text/x-csharp',
+                sql: 'text/x-sql'
+            };
+            return modeMap[language] || 'javascript';
+        }
+
+        function initCodeEditor() {
+            if (!window.CodeMirror || !editorTextarea) return;
+            codeEditorInstance = window.CodeMirror.fromTextArea(editorTextarea, {
+                lineNumbers: true,
+                mode: getEditorMode(languageSelect.value),
+                theme: 'material-darker',
+                tabSize: 4,
+                indentUnit: 4,
+                indentWithTabs: false,
+                lineWrapping: false,
+                matchBrackets: true,
+                autoCloseBrackets: true
+            });
+            codeEditorInstance.setSize('100%', null);
+        }
+
+        function getEditorValue() {
+            return codeEditorInstance ? codeEditorInstance.getValue() : (editorTextarea ? editorTextarea.value : '');
+        }
+
+        function setEditorValue(value) {
+            const text = String(value || '');
+            if (codeEditorInstance) {
+                codeEditorInstance.setValue(text);
+                return;
+            }
+            if (editorTextarea) editorTextarea.value = text;
+        }
+
+        function syncEditorMode() {
+            if (codeEditorInstance) {
+                codeEditorInstance.setOption('mode', getEditorMode(languageSelect.value));
+            }
+        }
+
+        function getStdinValue() {
+            return inlineStdinInput.value || '';
+        }
+
+        function looksLikeMissingInputError(message) {
+            const text = String(message || '').toLowerCase();
+            return text.includes('nosuchelementexception') ||
+                text.includes('scanner.next') ||
+                text.includes('eoferror') ||
+                text.includes('input mismatch') ||
+                text.includes('no input');
+        }
 
         if (!user || !user.email) {
             alert('Please login first to use Code Lab.');
@@ -350,6 +485,7 @@ sum;</textarea>
                 const langs = await response.json();
                 if (!Array.isArray(langs) || !langs.length) return;
                 languageSelect.innerHTML = langs.map(l => `<option value="${l.id}">${l.label}</option>`).join('');
+                syncEditorMode();
             } catch (error) {
                 // Keep default language on API error.
             }
@@ -373,7 +509,8 @@ sum;</textarea>
         }
 
         clearBtn.addEventListener('click', () => {
-            editor.value = '';
+            setEditorValue('');
+            inlineStdinInput.value = '';
             output.className = 'lab-output';
             output.textContent = 'Editor cleared.';
             plotOutputImage.src = '';
@@ -389,7 +526,7 @@ sum;</textarea>
             }
             const snippets = loadSnippets();
             const existingIndex = snippets.findIndex(s => s.name === name);
-            const payload = { name, code: editor.value, language: languageSelect.value, stdin: stdinInput.value || '' };
+            const payload = { name, code: getEditorValue(), language: languageSelect.value, stdin: getStdinValue() };
             if (existingIndex >= 0) {
                 snippets[existingIndex] = payload;
             } else {
@@ -407,10 +544,11 @@ sum;</textarea>
             const snippets = loadSnippets();
             const selected = snippets[idx];
             if (!selected) return;
-            editor.value = selected.code || '';
-            stdinInput.value = selected.stdin || '';
+            setEditorValue(selected.code || '');
+            inlineStdinInput.value = selected.stdin || '';
             if (selected.language) {
                 languageSelect.value = selected.language;
+                syncEditorMode();
             }
             runMeta.textContent = `Loaded: ${selected.name}`;
         });
@@ -429,7 +567,7 @@ sum;</textarea>
         });
 
         runBtn.addEventListener('click', async () => {
-            const code = editor.value || '';
+            const code = getEditorValue() || '';
             if (!code.trim()) {
                 output.className = 'lab-output error';
                 output.textContent = 'Please write some code first.';
@@ -439,6 +577,7 @@ sum;</textarea>
             const detected = detectLanguageFromCode(code);
             if (detected && languageSelect.value !== detected) {
                 languageSelect.value = detected;
+                syncEditorMode();
                 runMeta.textContent = `Auto-switched language to ${detected.toUpperCase()}`;
             }
 
@@ -454,17 +593,22 @@ sum;</textarea>
                         email: user.email,
                         language: languageSelect.value,
                         code,
-                        stdin: stdinInput.value || ''
+                        stdin: getStdinValue()
                     })
                 });
                 const data = await response.json();
 
                 if (!response.ok || !data.success) {
                     output.className = 'lab-output error';
-                    output.textContent = data.message || 'Execution failed.';
+                    const errText = data.message || 'Execution failed.';
+                    const needsInput = looksLikeMissingInputError(errText);
+                    output.textContent = needsInput
+                        ? `${errText}\n\nProgram is waiting for input. Type input below and click "Run With Input".`
+                        : errText;
                     plotOutputImage.src = '';
                     plotOutputWrap.hidden = true;
-                    runMeta.textContent = 'Failed';
+                    runMeta.textContent = needsInput ? 'Input required' : 'Failed';
+                    if (needsInput) inlineStdinInput.focus();
                     return;
                 }
 
@@ -478,6 +622,11 @@ sum;</textarea>
 
                 output.className = data.stderr ? 'lab-output error' : 'lab-output success';
                 output.textContent = chunks.join('\n\n');
+                if (data.stderr && looksLikeMissingInputError(data.stderr)) {
+                    output.textContent += '\n\nProgram is waiting for input. Type input below and click "Run With Input".';
+                    runMeta.textContent = 'Input required';
+                    inlineStdinInput.focus();
+                }
                 if (data.plotImage) {
                     plotOutputImage.src = data.plotImage;
                     plotOutputWrap.hidden = false;
@@ -498,6 +647,19 @@ sum;</textarea>
             }
         });
 
+        inlineRunBtn.addEventListener('click', () => {
+            runBtn.click();
+        });
+
+        inlineStdinInput.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                inlineRunBtn.click();
+            }
+        });
+
+        languageSelect.addEventListener('change', syncEditorMode);
+        initCodeEditor();
         loadLanguages();
         refreshSnippetSelect();
     </script>

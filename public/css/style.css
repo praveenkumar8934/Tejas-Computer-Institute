@@ -692,6 +692,10 @@ p {
     padding-top: 80px;
 }
 
+.hero > .container {
+    width: 100%;
+}
+
 .hero::before {
     content: '';
     position: absolute;
@@ -1498,6 +1502,12 @@ p {
     color: var(--primary-color);
 }
 
+.footer-contact a,
+.footer-contact span {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
 .footer-bottom {
     text-align: center;
     padding-top: 30px;
@@ -1712,6 +1722,29 @@ p {
     .hamburger {
         display: block;
     }
+
+    .navbar {
+        gap: 10px;
+    }
+
+    .logo {
+        gap: 10px;
+        min-width: 0;
+        max-width: calc(100% - 52px);
+    }
+
+    .logo-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    .logo-text {
+        font-size: 1.2rem;
+        line-height: 1.15;
+    }
     
     .hamburger.active .bar:nth-child(2) {
         opacity: 0;
@@ -1728,12 +1761,15 @@ p {
     .nav-menu {
         position: fixed;
         left: -100%;
-        top: 80px;
+        top: 72px;
         flex-direction: column;
         background: var(--white);
         width: 100%;
+        max-height: calc(100vh - 72px);
         padding: 30px;
         box-shadow: var(--shadow);
+        overflow-y: auto;
+        overflow-x: hidden;
         transition: 0.3s;
     }
     
@@ -1759,6 +1795,14 @@ p {
     .about-features {
         grid-template-columns: 1fr;
     }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-contact li {
+        align-items: flex-start;
+    }
     
     .hero-buttons {
         flex-direction: column;
@@ -1772,6 +1816,33 @@ p {
 @media (max-width: 480px) {
     .container {
         padding: 0 15px;
+    }
+
+    .navbar {
+        padding: 10px 0;
+    }
+
+    .logo {
+        gap: 8px;
+        max-width: calc(100% - 48px);
+    }
+
+    .logo-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        font-size: 1rem;
+    }
+
+    .logo-text {
+        font-size: 1rem;
+        white-space: normal;
+    }
+
+    .nav-menu {
+        top: 64px;
+        max-height: calc(100vh - 64px);
+        padding: 22px 16px;
     }
     
     h1 { font-size: 2rem; }
